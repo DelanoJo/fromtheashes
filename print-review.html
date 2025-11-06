@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From The Ashes Fitness - Complete Website Review</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        @media print {
+            body {
+                font-size: 11pt;
+                line-height: 1.5;
+            }
+
+            .navbar, .footer {
+                display: none !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+                margin-top: 0;
+                padding-top: 20px;
+            }
+
+            .page-section {
+                page-break-inside: avoid;
+                margin-bottom: 30px;
+            }
+
+            h1 {
+                font-size: 24pt;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                font-size: 18pt;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                color: #1B365D !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            h3 {
+                font-size: 14pt;
+                margin-top: 15px;
+                margin-bottom: 8px;
+            }
+
+            .review-notes {
+                border: 2px dashed #ccc !important;
+                padding: 20px !important;
+                margin: 20px 0 !important;
+                background: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                min-height: 80px;
+            }
+
+            .page-header-print {
+                background: none !important;
+                border-bottom: 3px solid #1B365D !important;
+                padding: 20px 0 !important;
+                margin-bottom: 20px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .btn, button {
+                border: 2px solid #8FD14F !important;
+                background: white !important;
+                color: #333 !important;
+                padding: 5px 15px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .pricing-card {
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+
+            .hero, .cta-section {
+                background: #f5f5f5 !important;
+                border: 1px solid #ddd !important;
+                padding: 20px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        .review-notes {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f9f9f9;
+            min-height: 80px;
+        }
+
+        .review-notes h4 {
+            margin-top: 0;
+            color: #666;
+            font-size: 12pt;
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        .page-header-print {
+            background: linear-gradient(135deg, #1B365D 0%, #152C4D 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header-print h1 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .page-header-print .page-number {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            background: white;
+            color: #1B365D;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        @media print {
+            .print-only {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="page-section">
+        <div class="page-header-print" style="min-height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <h1 style="font-size: 36pt; margin-bottom: 20px;">From The Ashes Fitness</h1>
+            <h2 style="font-size: 24pt; font-weight: normal; color: white;">Website Content Review Document</h2>
+            <p style="font-size: 14pt; margin-top: 40px;">Complete website content for review and markup</p>
+            <p style="font-size: 12pt; margin-top: 20px;">Prepared: <script>document.write(new Date().toLocaleDateString());</script></p>
+        </div>
+
+        <div class="review-notes">
+            <h4>General Notes & Overall Feedback:</h4>
+            <div style="min-height: 200px;"></div>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="page-break page-section">
+        <h1>Table of Contents</h1>
+        <ol style="font-size: 14pt; line-height: 2;">
+            <li>Homepage Content</li>
+            <li>About Mia Johnson</li>
+            <li>Services & Pricing</li>
+            <li>Specialized Programs</li>
+            <li>Client Testimonials</li>
+            <li>Contact & Booking Information</li>
+        </ol>
+
+        <div class="review-notes" style="margin-top: 40px;">
+            <h4>Navigation & Structure Notes:</h4>
+            <div style="min-height: 150px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 1: HOMEPAGE -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 1</span>
+            <h1>Homepage Content</h1>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero" style="padding: 30px;">
+            <h2>Hero Section</h2>
+            <h1>Transform Your Life Through Fitness</h1>
+            <p class="hero-tagline" style="font-size: 16pt; font-style: italic;">It's a pleasure to be a partner in your fitness journey</p>
+            <div style="margin-top: 20px;">
+                <span class="btn" style="margin-right: 10px;">Book Free Consultation</span>
+                <span class="btn">View Services</span>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Hero Section Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+
+        <!-- Philosophy Quote -->
+        <section style="background: #1B365D; color: white; padding: 30px; text-align: center; margin: 20px 0;">
+            <h2 style="color: white;">Philosophy Quote</h2>
+            <blockquote style="font-size: 16pt; font-style: italic;">
+                "Never do anything half hearted... always use your full heart!"
+                <cite style="display: block; margin-top: 10px;">- Mia Johnson</cite>
+            </blockquote>
+        </section>
+
+        <div class="review-notes">
+            <h4>Quote Section Notes:</h4>
+            <div style="min-height: 80px;"></div>
+        </div>
+
+        <!-- Services Overview -->
+        <section>
+            <h2>How I Can Help You</h2>
+
+            <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px;">
+                <h3>💪 Personal Training</h3>
+                <p>One-on-one customized training programs designed specifically for your goals, fitness level, and schedule.</p>
+                <ul>
+                    <li>30, 45, or 60-minute sessions</li>
+                    <li>In-person or virtual options</li>
+                    <li>Personalized workout plans</li>
+                </ul>
+            </div>
+
+            <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px;">
+                <h3>👥 Group Training</h3>
+                <p>Fun, motivating group sessions that build community while achieving fitness goals together.</p>
+                <ul>
+                    <li>Small groups (3-8 people)</li>
+                    <li>Women on Weights program</li>
+                    <li>All fitness levels welcome</li>
+                </ul>
+            </div>
+
+            <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px;">
+                <h3>🎯 Specialized Programs</h3>
+                <p>Expert training for specific needs including prenatal, senior fitness, and functional movement.</p>
+                <ul>
+                    <li>Prenatal & postnatal fitness</li>
+                    <li>Senior strength training</li>
+                    <li>Medical condition support</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Services Overview Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: ABOUT -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 2</span>
+            <h1>About Mia Johnson</h1>
+        </div>
+
+        <section>
+            <h2>From the Ashes: My Philosophy</h2>
+            <p>The name "From the Ashes" represents more than just a fitness brand – it's a philosophy of transformation, resilience, and renewal. Like the phoenix that rises from the ashes, we all have the power to emerge stronger from life's challenges.</p>
+
+            <p>I believe that true fitness isn't just about physical strength; it's about building mental resilience, emotional wellbeing, and creating sustainable lifestyle changes that empower you to live your fullest life.</p>
+
+            <blockquote style="margin: 20px 0; padding: 15px; border-left: 4px solid #8FD14F; background: #f5f5f5;">
+                <p style="font-style: italic;">"Never do anything half hearted... always use your full heart!"</p>
+                <cite>- My personal motto</cite>
+            </blockquote>
+        </section>
+
+        <div class="review-notes">
+            <h4>Philosophy Section Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+
+        <section>
+            <h2>My Journey</h2>
+            <p>My path to becoming a personal trainer wasn't traditional. With a background in emergency services, I've seen firsthand how physical fitness can be the difference between being able to help others and becoming overwhelmed by challenging situations. This experience taught me that fitness is functional – it's about being prepared for whatever life throws at you.</p>
+
+            <p>Through my own fitness journey, including training through pregnancy and helping family members navigate health challenges, I've learned that everyone's path is unique. What works for one person may not work for another, and that's why I'm passionate about creating personalized programs that meet you where you are.</p>
+
+            <p>I've dedicated my career to studying the science of movement, earning certifications in personal training, prenatal and postnatal fitness, senior fitness, and functional movement. But beyond the certifications, what drives me is seeing the transformation in my clients – not just physical, but the confidence, energy, and joy that comes from feeling strong and capable.</p>
+        </section>
+
+        <div class="review-notes">
+            <h4>Journey Section Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+
+        <section>
+            <h2>My Training Philosophy</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3>Mind-Body Connection</h3>
+                    <p>I believe in training the whole person. Physical fitness impacts mental health, and mental strength enhances physical performance.</p>
+                </div>
+                <div>
+                    <h3>Functional Movement</h3>
+                    <p>Every exercise should translate to real life. Training should make daily life easier and more enjoyable.</p>
+                </div>
+                <div>
+                    <h3>Inclusive & Adaptive</h3>
+                    <p>Fitness is for every body. I specialize in adapting programs for different abilities, life stages, and health conditions.</p>
+                </div>
+                <div>
+                    <h3>Evidence-Based Practice</h3>
+                    <p>I stay current with exercise science research to provide safe, effective training methods.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Training Philosophy Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: SERVICES & PRICING -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 3</span>
+            <h1>Services & Pricing</h1>
+        </div>
+
+        <section style="background: #F5E6D3; padding: 20px; text-align: center; margin-bottom: 30px;">
+            <h2 style="color: #8FD14F;">✅ First Consultation is FREE!</h2>
+            <p>Start with a complimentary consultation including physical history, movement assessment, and personalized program planning.</p>
+        </section>
+
+        <section>
+            <h2>Individual Training</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="pricing-card" style="border: 1px solid #ddd; padding: 20px; text-align: center;">
+                    <h3>30 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$45</div>
+                    <p>Per Session</p>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✓ Focused, efficient workout</li>
+                        <li>✓ Perfect for lunch breaks</li>
+                        <li>✓ Core or specific muscle groups</li>
+                        <li>✓ Form correction & technique</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card" style="border: 2px solid #8FD14F; padding: 20px; text-align: center;">
+                    <h3>45 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$75</div>
+                    <p>Per Session - MOST POPULAR</p>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✓ Full-body workout</li>
+                        <li>✓ Warm-up and cool-down included</li>
+                        <li>✓ Multiple training methods</li>
+                        <li>✓ Progress tracking</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card" style="border: 1px solid #ddd; padding: 20px; text-align: center;">
+                    <h3>60 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$100</div>
+                    <p>Per Session</p>
+                    <ul style="list-style: none; padding: 0; text-align: left;">
+                        <li>✓ Comprehensive training</li>
+                        <li>✓ Extended technique work</li>
+                        <li>✓ Flexibility & mobility focus</li>
+                        <li>✓ Detailed program review</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Individual Training Pricing Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+
+        <section>
+            <h2>Partner Training (Per Person)</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="pricing-card" style="border: 1px solid #ddd; padding: 20px; text-align: center;">
+                    <h3>30 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$39</div>
+                    <p>Per Person</p>
+                </div>
+
+                <div class="pricing-card" style="border: 1px solid #ddd; padding: 20px; text-align: center;">
+                    <h3>45 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$65</div>
+                    <p>Per Person</p>
+                </div>
+
+                <div class="pricing-card" style="border: 1px solid #ddd; padding: 20px; text-align: center;">
+                    <h3>60 Minutes</h3>
+                    <div style="font-size: 24pt; color: #8FD14F; font-weight: bold;">$85</div>
+                    <p>Per Person</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Small Group Training</h2>
+            <p>For 3-8 people. Rates scale similar to Partner Training.</p>
+            <ul>
+                <li>Community support and motivation</li>
+                <li>Cost-effective training option</li>
+                <li>Fun, social atmosphere</li>
+                <li>Accountability from peers</li>
+            </ul>
+        </section>
+
+        <section style="background: #f5f5f5; padding: 20px; margin: 20px 0;">
+            <h3>🚗 Travel Fees</h3>
+            <ul style="list-style: none;">
+                <li>Within 5 miles: $15</li>
+                <li>Within 10 miles: $25</li>
+                <li>Beyond 10 miles: $40+</li>
+            </ul>
+        </section>
+
+        <div class="review-notes">
+            <h4>Partner/Group Training & Travel Fee Notes:</h4>
+            <div style="min-height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: PROGRAMS -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 4</span>
+            <h1>Specialized Programs</h1>
+        </div>
+
+        <section>
+            <h2>Women on Weights</h2>
+            <p>This empowering program is designed specifically for women who want to build strength, confidence, and community through weight training.</p>
+
+            <h3>What You'll Experience:</h3>
+            <ul>
+                <li>Safe, progressive strength training techniques</li>
+                <li>Myth-busting education about women and weights</li>
+                <li>Supportive group environment</li>
+                <li>Programs tailored for all fitness levels</li>
+                <li>Focus on functional strength and bone health</li>
+            </ul>
+        </section>
+
+        <div class="review-notes">
+            <h4>Women on Weights Notes:</h4>
+            <div style="min-height: 80px;"></div>
+        </div>
+
+        <section>
+            <h2>Prenatal & Postnatal Fitness</h2>
+            <p>Specialized training to support you through pregnancy and recovery, helping you maintain strength, prepare for childbirth, and recover safely postpartum.</p>
+
+            <h3>Program Features:</h3>
+            <ul>
+                <li>Trimester-specific exercises</li>
+                <li>Core and pelvic floor focus</li>
+                <li>Safe modifications for every stage</li>
+                <li>Preparation for labor and delivery</li>
+                <li>Postpartum recovery protocols</li>
+                <li>Mental health support through movement</li>
+            </ul>
+        </section>
+
+        <div class="review-notes">
+            <h4>Prenatal/Postnatal Program Notes:</h4>
+            <div style="min-height: 80px;"></div>
+        </div>
+
+        <section>
+            <h2>Senior Strength & Mobility</h2>
+            <p>Age is just a number! This program focuses on maintaining and improving strength, balance, flexibility, and independence for active aging.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3>Fall Prevention</h3>
+                    <p>Balance and stability exercises to reduce fall risk.</p>
+                </div>
+                <div>
+                    <h3>Functional Strength</h3>
+                    <p>Exercises for daily tasks like carrying groceries.</p>
+                </div>
+                <div>
+                    <h3>Joint Health</h3>
+                    <p>Low-impact movements to maintain mobility.</p>
+                </div>
+                <div>
+                    <h3>Bone Density</h3>
+                    <p>Weight-bearing exercises for osteoporosis prevention.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Senior Fitness Notes:</h4>
+            <div style="min-height: 80px;"></div>
+        </div>
+
+        <section>
+            <h2>Other Specialized Programs</h2>
+            <ul>
+                <li><strong>Functional Movement Training:</strong> Train movements, not just muscles</li>
+                <li><strong>First Responder Fitness:</strong> Job-specific training for emergency personnel</li>
+                <li><strong>Medical Condition Support:</strong> Safe exercise for various health conditions</li>
+            </ul>
+        </section>
+
+        <div class="review-notes">
+            <h4>Other Programs Notes:</h4>
+            <div style="min-height: 80px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: TESTIMONIALS -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 5</span>
+            <h1>Client Testimonials</h1>
+        </div>
+
+        <section>
+            <div style="background: #f5f5f5; padding: 20px; margin-bottom: 20px;">
+                <h3>Sandy Lowdermilk - Individual Training Client</h3>
+                <blockquote style="margin: 10px 0; padding-left: 20px; border-left: 4px solid #8FD14F;">
+                    <p style="font-style: italic;">"Mia is a wonderful trainer and I enjoy working with her greatly. She's bright, knowledgeable and always has a smile on her face. She is fun to work with and I'm getting amazing results with her guidance."</p>
+                </blockquote>
+            </div>
+
+            <div style="background: #f5f5f5; padding: 20px; margin-bottom: 20px;">
+                <h3>Miriam Goldstein - Personal Training & Women on Weights</h3>
+                <blockquote style="margin: 10px 0; padding-left: 20px; border-left: 4px solid #8FD14F;">
+                    <p style="font-style: italic;">"Mia has been a most wonderful trainer. She provided challenging training and knew exactly what exercises and weights would suit me. She explained the exercises in layman's terms which was appreciated. I really enjoyed my training and would highly recommend her!"</p>
+                    <p style="font-style: italic;">"Women on weights is a great program for all fitness levels and ages. Mia tailored the workouts to suit everyone. Her knowledge and enthusiasm are contagious! I am definitely stronger and my balance has improved in six weeks."</p>
+                </blockquote>
+            </div>
+
+            <div style="background: #f5f5f5; padding: 20px; margin-bottom: 20px;">
+                <h3>Lori McGehee - 5 Seasons of Women on Weights</h3>
+                <blockquote style="margin: 10px 0; padding-left: 20px; border-left: 4px solid #8FD14F;">
+                    <p style="font-style: italic;">"I have taken 5 seasons of women on weights classes with Mia Johnson. They have been great classes and I have gained strength and learned how to use the free weights and the machines. I have also had Mia as a personal trainer. She is so professional and really knows her stuff. Her enthusiasm for living a healthy life inspires me."</p>
+                </blockquote>
+            </div>
+
+            <div style="background: #f5f5f5; padding: 20px; margin-bottom: 20px;">
+                <h3>Hal Bruno - Personal Training Client</h3>
+                <blockquote style="margin: 10px 0; padding-left: 20px; border-left: 4px solid #8FD14F;">
+                    <p style="font-style: italic;">"Mia is a great teacher who has a ton of knowledge and a pleasant way of sharing it!"</p>
+                </blockquote>
+            </div>
+
+            <div style="background: #f5f5f5; padding: 20px; margin-bottom: 20px;">
+                <h3>Katerina - Personal Training Client</h3>
+                <blockquote style="margin: 10px 0; padding-left: 20px; border-left: 4px solid #8FD14F;">
+                    <p style="font-style: italic;">"Mia is a fantastic trainer! I feel so much stronger and more flexible since we started working together."</p>
+                </blockquote>
+            </div>
+        </section>
+
+        <div class="review-notes">
+            <h4>Testimonials Notes:</h4>
+            <div style="min-height: 150px;"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: CONTACT -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <span class="page-number">Page 6</span>
+            <h1>Contact & Booking Information</h1>
+        </div>
+
+        <section style="background: #F5E6D3; padding: 20px; margin-bottom: 30px;">
+            <h2>What's Included in Your Free Consultation</h2>
+            <p>During your consultation, we will get to know each other and start you on your path towards success.</p>
+            <ul>
+                <li>✓ Physical History - Review your health background and any limitations</li>
+                <li>✓ Movement Assessment - Evaluate your current fitness level and movement patterns</li>
+                <li>✓ Goal Setting - Discuss your fitness goals and timeline</li>
+                <li>✓ Program Design - Create an individualized plan to reach your goals</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Booking Form Fields</h2>
+            <p style="font-style: italic;">The online form collects the following information:</p>
+
+            <div style="border: 1px solid #ddd; padding: 20px;">
+                <ul style="list-style: none;">
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Name:</strong> _________________________________
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Email:</strong> _________________________________
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Phone:</strong> _________________________________
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Service Interest:</strong>
+                        <ul style="margin-top: 5px; font-size: 10pt;">
+                            <li>□ Individual Training</li>
+                            <li>□ Partner Training</li>
+                            <li>□ Small Group Training</li>
+                            <li>□ Women on Weights</li>
+                            <li>□ Prenatal/Postnatal</li>
+                            <li>□ Senior Fitness</li>
+                            <li>□ Other: _____________</li>
+                        </ul>
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Preferred Days/Times:</strong> _________________________________
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <strong>Training Location:</strong>
+                        □ Your Facility □ My Home □ Outdoor □ Virtual
+                    </li>
+                    <li style="padding: 10px 0;">
+                        <strong>Goals & Health Considerations:</strong><br>
+                        <div style="min-height: 80px; border: 1px dashed #ccc; margin-top: 10px;"></div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Contact Information</h2>
+            <ul>
+                <li><strong>Email:</strong> mia@fromtheashes.fit</li>
+                <li><strong>Instagram:</strong> @camilla_adelita</li>
+                <li><strong>Facebook:</strong> /share/1CCCYpkAad/</li>
+                <li><strong>Response Time:</strong> Within 24 hours</li>
+            </ul>
+        </section>
+
+        <div class="review-notes">
+            <h4>Contact & Booking Notes:</h4>
+            <div style="min-height: 150px;"></div>
+        </div>
+    </div>
+
+    <!-- Final Review Page -->
+    <div class="page-break page-section">
+        <div class="page-header-print">
+            <h1>Final Review Notes</h1>
+        </div>
+
+        <section>
+            <h2>Overall Website Assessment</h2>
+
+            <div style="margin: 20px 0;">
+                <h3>Content Completeness</h3>
+                <div style="border: 1px solid #ddd; padding: 15px;">
+                    <p>□ All necessary information included</p>
+                    <p>□ Missing content: _________________________________</p>
+                    <p>□ Content to remove: _________________________________</p>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3>Tone & Voice</h3>
+                <div style="border: 1px solid #ddd; padding: 15px;">
+                    <p>□ Appropriate for target audience</p>
+                    <p>□ Consistent throughout</p>
+                    <p>□ Changes needed: _________________________________</p>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3>Pricing & Services</h3>
+                <div style="border: 1px solid #ddd; padding: 15px;">
+                    <p>□ Pricing accurate</p>
+                    <p>□ All services listed</p>
+                    <p>□ Updates needed: _________________________________</p>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3>Call-to-Action Elements</h3>
+                <div style="border: 1px solid #ddd; padding: 15px;">
+                    <p>□ Clear and compelling</p>
+                    <p>□ Appropriately placed</p>
+                    <p>□ Changes needed: _________________________________</p>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3>Priority Changes</h3>
+                <div style="border: 2px solid #8FD14F; padding: 20px; min-height: 150px;">
+                    <p>1. _________________________________</p>
+                    <p>2. _________________________________</p>
+                    <p>3. _________________________________</p>
+                    <p>4. _________________________________</p>
+                    <p>5. _________________________________</p>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h3>Additional Comments</h3>
+                <div style="border: 1px dashed #ccc; padding: 20px; min-height: 200px; background: #f9f9f9;">
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 40px;">
+            <h3>Reviewer Information</h3>
+            <div style="border: 1px solid #ddd; padding: 20px;">
+                <p>Name: _________________________________</p>
+                <p>Date: _________________________________</p>
+                <p>Signature: _________________________________</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Auto-print dialog when page loads (optional)
+        window.onload = function() {
+            // Uncomment the line below if you want to automatically open print dialog
+            // window.print();
+        }
+    </script>
+</body>
+</html>

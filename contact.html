@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Consultation - From The Ashes Fitness</title>
+    <meta name="description" content="Book your free fitness consultation with Mia Johnson. Personal training, group classes, and specialized programs available.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html">From The Ashes</a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="programs.html">Programs</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active cta-button">Book Consultation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Book Your Consultation</h1>
+            <p>Your first consultation is complimentary! Mobile training available.</p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="content-section">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <!-- Contact Form -->
+                <div style="background: var(--white); padding: 2.5rem; border-radius: 10px; box-shadow: var(--shadow);">
+                    <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">Schedule Your Consultation</h2>
+
+                    <div id="form-message"></div>
+
+                    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="service">Service You're Interested In *</label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service...</option>
+                                <option value="individual-training">Individual Training</option>
+                                <option value="partner-training">Partner Training</option>
+                                <option value="group-training">Small Group Training</option>
+                                <option value="women-on-weights">Women on Weights Program</option>
+                                <option value="prenatal-postnatal">Prenatal/Postnatal Fitness</option>
+                                <option value="senior-fitness">Senior Strength & Mobility</option>
+                                <option value="functional-movement">Functional Movement Training</option>
+                                <option value="first-responder">First Responder Fitness</option>
+                                <option value="medical-support">Medical Condition Support</option>
+                                <option value="not-sure">Not Sure - Need Guidance</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="availability">Preferred Days/Times</label>
+                            <input type="text" id="availability" name="availability" placeholder="e.g., Weekday mornings, Tuesday/Thursday evenings">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Preferred Training Location</label>
+                            <select id="location" name="location">
+                                <option value="your-facility">Your Facility/Gym</option>
+                                <option value="my-home">My Home (travel fee applies)</option>
+                                <option value="outdoors">Outdoor Location</option>
+                                <option value="virtual">Virtual/Online</option>
+                                <option value="flexible">I'm Flexible</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Tell Me About Your Goals *</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Please share what you'd like to focus on, any specific goals you have, and any health considerations I should know about..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="referral">How Did You Hear About Me?</label>
+                            <input type="text" id="referral" name="referral" placeholder="Friend referral, social media, etc.">
+                        </div>
+
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary btn-large">Request Complimentary Consultation</button>
+                            <p style="margin-top: 1rem; color: var(--text-light); font-size: 0.9rem;">
+                                I'll contact you within 24 hours to schedule your consultation
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="content-section" style="background: var(--gray-light);">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Other Ways to Connect</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:mia@fromtheashes.fit" style="color: var(--accent-color); text-decoration: none;">mia@fromtheashes.fit</a></p>
+                </div>
+
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📱</div>
+                    <h3>Social Media</h3>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                        <a href="https://www.instagram.com/camilla_adelita" target="_blank" style="color: var(--primary-color);">Instagram</a>
+                        <span>|</span>
+                        <a href="https://www.facebook.com/share/1CCCYpkAad/" target="_blank" style="color: var(--primary-color);">Facebook</a>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📍</div>
+                    <h3>Service Area</h3>
+                    <p>In-person training available throughout the area<br>
+                    <small style="color: var(--text-light);">Travel fees may apply</small></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Frequently Asked Questions</h2>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">What should I bring to my first consultation?</h3>
+                    <p>Wear comfortable workout clothes and bring water. We'll do a basic movement assessment, but nothing too strenuous. Most importantly, bring your questions and goals!</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">How long is the free consultation?</h3>
+                    <p>Plan for about 45-60 minutes. This gives us time to discuss your goals, review your health history, perform a movement assessment, and design your initial program.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">Do I need to be in shape to start?</h3>
+                    <p>Absolutely not! I work with clients at all fitness levels, from complete beginners to athletes. Your program will be designed specifically for your current fitness level and will progress as you get stronger.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">What if I have injuries or health conditions?</h3>
+                    <p>I specialize in working with various health conditions and can modify exercises as needed. Please share any injuries or health concerns during your consultation so I can design a safe, effective program for you.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">How often should I train?</h3>
+                    <p>This depends on your goals, schedule, and current fitness level. Most clients see great results with 2-3 sessions per week, but we'll determine the best frequency for you during your consultation.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color);">What's your cancellation policy?</h3>
+                    <p>I understand life happens! Please provide 24 hours notice for cancellations when possible. We'll discuss the full policy during your consultation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Don't Wait to Start Your Transformation</h2>
+            <p>Every journey begins with a single step. Take yours today!</p>
+            <a href="#contact-form" class="btn btn-primary btn-large">Book Your Complimentary Consultation Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>From The Ashes Fitness</h4>
+                    <p>Empowering individuals to rise stronger through personalized fitness training and supportive community.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Mia</a></li>
+                        <li><a href="services.html">Services & Pricing</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Me</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/camilla_adelita" target="_blank" aria-label="Instagram"><img src="images/instagram-icon.svg" alt="Instagram" style="width: 24px; height: 24px;"></a>
+                        <a href="https://www.facebook.com/share/1CCCYpkAad/" target="_blank" aria-label="Facebook"><img src="images/facebook.svg" alt="Facebook" style="width: 24px; height: 24px;"></a>
+                    </div>
+                    <p>Email: <a href="mailto:mia@fromtheashes.fit">mia@fromtheashes.fit</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 From The Ashes Fitness. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
