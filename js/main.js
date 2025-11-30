@@ -76,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScroll = currentScroll;
     });
 
-    // Form validation for contact form
+    // Form validation and submission for contact form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             // Get form values
@@ -98,17 +98,58 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!service) errors.push('Please select a service');
             if (!message) errors.push('Please enter a message');
 
+            // Check reCAPTCHA
+            if (typeof grecaptcha !== 'undefined') {
+                const recaptchaResponse = grecaptcha.getResponse();
+                if (!recaptchaResponse) {
+                    errors.push('Please complete the reCAPTCHA verification');
+                }
+            }
+
             if (errors.length > 0) {
                 showFormMessage(errors.join('<br>'), 'error');
                 return;
             }
 
-            // If validation passes, show success message
-            // In production, this would submit to a form handler
-            showFormMessage('Thank you for your inquiry! I will contact you within 24 hours to schedule your free consultation.', 'success');
+            // Disable submit button while processing
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
 
-            // Reset form
-            contactForm.reset();
+            try {
+                // Submit to Formspree
+                const formData = new FormData(contactForm);
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    showFormMessage('Thank you for your inquiry! I will contact you within 24 hours to schedule your free consultation.', 'success');
+                    contactForm.reset();
+                    // Reset reCAPTCHA
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                    }
+                } else {
+                    const data = await response.json();
+                    if (data.errors) {
+                        showFormMessage(data.errors.map(err => err.message).join('<br>'), 'error');
+                    } else {
+                        showFormMessage('There was a problem submitting your form. Please try again.', 'error');
+                    }
+                }
+            } catch (error) {
+                showFormMessage('There was a problem submitting your form. Please check your connection and try again.', 'error');
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
         });
     }
 
