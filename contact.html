@@ -51,7 +51,7 @@
 
                     <div id="form-message"></div>
 
-                    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <form id="contact-form" action="https://formspree.io/f/mblndvjb" method="POST">
                         <div class="form-group">
                             <label for="name">Your Name *</label>
                             <input type="text" id="name" name="name" required>
@@ -111,6 +111,9 @@
                             <label for="referral">How Did You Hear About Me?</label>
                             <input type="text" id="referral" name="referral" placeholder="Friend referral, social media, etc.">
                         </div>
+
+                        <!-- Google reCAPTCHA v2 -->
+                        <div class="g-recaptcha" data-sitekey="6LecKR0sAAAAAPljrTPtes5z7uv09SBBNFrMRtpg" style="margin-bottom: 1.5rem;"></div>
 
                         <div style="text-align: center; margin-top: 2rem;">
                             <button type="submit" class="btn btn-primary btn-large">Request Complimentary Consultation</button>
@@ -237,5 +240,7 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <!-- Google reCAPTCHA script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
