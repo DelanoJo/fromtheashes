@@ -5,7 +5,7 @@ Professional fitness training website for Mia Johnson's personal training busine
 ## Website Features
 
 - Responsive design for all devices
-- Service information and pricing
+- Training session information
 - Client testimonials
 - Program descriptions
 - Contact form for consultation booking
@@ -136,7 +136,7 @@ To track visitor statistics, add Google Analytics:
 fromtheashes-site/
 ├── index.html          # Homepage
 ├── about.html          # About Mia page
-├── services.html       # Services & pricing
+├── services.html       # Training session types
 ├── programs.html       # Program descriptions
 ├── testimonials.html   # Client testimonials
 ├── contact.html        # Contact form & booking

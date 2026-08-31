@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services & Pricing - From The Ashes Fitness</title>
-    <meta name="description" content="Personal training services and pricing. Individual, partner, and group training options with flexible packages to meet your fitness goals.">
+    <title>Training Sessions - From The Ashes Fitness</title>
+    <meta name="description" content="Explore individual, partner, and small-group personal training sessions tailored to your fitness goals.">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,8 +37,8 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Services & Pricing</h1>
-            <p>Flexible training options to fit your schedule and budget</p>
+            <h1>Training Sessions</h1>
+            <p>Find the training format that fits your goals and lifestyle</p>
         </div>
     </section>
 
@@ -51,166 +51,69 @@
         </div>
     </section>
 
-    <!-- Individual Training Section -->
+    <!-- Training Session Types -->
     <section class="content-section" id="personal">
         <div class="container">
-            <h2>Individual Training</h2>
-            <p style="text-align: center; margin-bottom: 2rem;">One-on-one personalized training designed specifically for your goals. I come to you!</p>
+            <p class="eyebrow eyebrow-centered">Choose your format</p>
+            <h2>Session Types</h2>
+            <p class="section-intro">Every session is tailored to your goals, fitness level, and any limitations or injuries. Select a session type to learn more.</p>
 
-            <div class="pricing-grid" style="margin-bottom: 3rem;">
-                <div class="pricing-card">
-                    <h3>30 Minutes</h3>
-                    <div class="price">$45</div>
-                    <p>Per Session</p>
-                </div>
+            <div class="session-grid session-selector-grid" role="group" aria-label="Training session types">
+                <button class="session-card session-selector is-selected" type="button" data-session="individual" aria-pressed="true">
+                    <h3>Individual Training</h3>
+                    <p>One-on-one coaching designed around your goals, with focused instruction, form feedback, and a plan that progresses with you.</p>
+                </button>
 
-                <div class="pricing-card">
-                    <h3>45 Minutes</h3>
-                    <div class="price">$75</div>
-                    <p>Per Session</p>
-                </div>
+                <button class="session-card session-selector" type="button" data-session="partner" aria-pressed="false">
+                    <h3>Partner Training</h3>
+                    <p>Train with a friend, spouse, or family member while receiving individualized guidance, shared accountability, and partner-focused workouts.</p>
+                </button>
 
-                <div class="pricing-card">
-                    <h3>60 Minutes</h3>
-                    <div class="price">$100</div>
-                    <p>Per Session</p>
-                </div>
+                <button class="session-card session-selector" type="button" data-session="group" aria-pressed="false">
+                    <h3>Small Group Training</h3>
+                    <p>Energetic, supportive training for 3–8 people, with scalable workouts that welcome a range of fitness levels.</p>
+                </button>
             </div>
 
-            <div style="max-width: 900px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                    <div style="padding: 1.5rem; background: var(--white); border-radius: 8px; box-shadow: var(--shadow);">
-                        <h4 style="color: var(--accent-dark); margin-bottom: 0.5rem;">📍 Location Options</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 0.25rem 0;">✓ Your home</li>
-                            <li style="padding: 0.25rem 0;">✓ Your office/workplace</li>
-                            <li style="padding: 0.25rem 0;">✓ Outdoor spaces</li>
-                        </ul>
-                    </div>
-                    <div style="padding: 1.5rem; background: var(--white); border-radius: 8px; box-shadow: var(--shadow);">
-                        <h4 style="color: var(--accent-dark); margin-bottom: 0.5rem;">🚗 Travel Fees</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 0.25rem 0;"><strong>$15</strong> - Within 5 miles</li>
-                            <li style="padding: 0.25rem 0;"><strong>$25</strong> - Within 10 miles</li>
-                            <li style="padding: 0.25rem 0;"><strong>$40+</strong> - Beyond 10 miles</li>
-                        </ul>
-                    </div>
-                    <div style="padding: 1.5rem; background: var(--white); border-radius: 8px; box-shadow: var(--shadow);">
-                        <h4 style="color: var(--accent-dark); margin-bottom: 0.5rem;">💰 Packages</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 0.25rem 0;">✓ Multi-session discounts</li>
-                            <li style="padding: 0.25rem 0;">✓ Monthly packages available</li>
-                            <li style="padding: 0.25rem 0;">✓ Ask about special offers</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="contact.html" class="btn btn-primary">Get Your Personalized Quote</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Partner Training Section -->
-    <section class="content-section">
-        <div class="container">
-            <h2>Partner Training</h2>
-            <p style="text-align: center; margin-bottom: 2rem;">Train with a friend, spouse, or family member for motivation and accountability</p>
-
-            <div class="pricing-grid" style="margin-bottom: 3rem;">
-                <div class="pricing-card">
-                    <h3>30 Minutes</h3>
-                    <div class="price">$39</div>
-                    <p>Per Person</p>
-                    <ul>
-                        <li>Shared motivation</li>
-                        <li>Partner exercises</li>
-                        <li>Friendly competition</li>
-                        <li>Cost-effective option</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <h3>45 Minutes</h3>
-                    <div class="price">$65</div>
-                    <p>Per Person</p>
-                    <ul>
-                        <li>Complete partner workout</li>
-                        <li>Teamwork exercises</li>
-                        <li>Individual attention</li>
-                        <li>Progress tracking for both</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <h3>60 Minutes</h3>
-                    <div class="price">$85</div>
-                    <p>Per Person</p>
-                    <ul>
-                        <li>Extended partner session</li>
-                        <li>Comprehensive training</li>
-                        <li>Flexibility work</li>
-                        <li>Customized for both partners</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div style="max-width: 700px; margin: 0 auto; background: var(--gray-light); padding: 2rem; border-radius: 10px;">
-                <h3 style="color: var(--primary-color); margin-bottom: 1rem; text-align: center;">Everything from Individual Training, Plus:</h3>
-
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.5rem 0;">✓ Shared motivation and accountability</li>
-                    <li style="padding: 0.5rem 0;">✓ Partner-specific exercises and teamwork drills</li>
-                    <li style="padding: 0.5rem 0;">✓ Friendly competition to push each other</li>
-                    <li style="padding: 0.5rem 0;">✓ Individual attention for both participants</li>
+            <div class="session-detail" aria-live="polite">
+                <p class="detail-kicker">Individual training</p>
+                <h3 data-session-title>Dedicated, one-on-one support</h3>
+                <p data-session-description>Build confidence with coaching that adapts to your goals, experience, and progress.</p>
+                <ul data-session-benefits>
+                    <li>Personalized programming</li>
+                    <li>Focused form feedback</li>
+                    <li>Clear next steps for your goals</li>
                 </ul>
-
-                <p style="text-align: center; margin-top: 1.5rem; font-style: italic; color: var(--text-light);">Mobile training available. Same travel fees and package deals apply!</p>
             </div>
         </div>
     </section>
 
-    <!-- Small Group Training Section -->
+    <!-- Group Training Programs -->
     <section class="content-section" id="group">
         <div class="container">
-            <h2>Small Group Training</h2>
-            <p style="text-align: center; margin-bottom: 2rem;">Fun, energetic sessions for 3-8 people</p>
-
-            <div style="max-width: 800px; margin: 0 auto; background: var(--white); padding: 2rem; border-radius: 10px; box-shadow: var(--shadow);">
-                <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-light); font-style: italic;">Available at your location or preferred training space</p>
-                <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Group Training Benefits</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--gray-medium);">✓ Community support and motivation</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--gray-medium);">✓ Cost-effective training option</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--gray-medium);">✓ Fun, social atmosphere</li>
-                    <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--gray-medium);">✓ Accountability from peers</li>
-                    <li style="padding: 0.5rem 0;">✓ All fitness levels welcome</li>
-                </ul>
-
-                <h3 style="color: var(--primary-color); margin: 2rem 0 1rem;">Popular Group Programs</h3>
-                <div style="display: grid; gap: 1rem;">
-                    <div style="padding: 1rem; background: var(--gray-light); border-radius: 5px;">
-                        <h4 style="color: var(--accent-dark);">Women on Weights</h4>
-                        <p>Strength training program designed specifically for women of all fitness levels</p>
-                    </div>
-                    <div style="padding: 1rem; background: var(--gray-light); border-radius: 5px;">
-                        <h4 style="color: var(--accent-dark);">Squats for Tots</h4>
-                        <p>Family-friendly fitness sessions that get kids and parents moving together</p>
-                    </div>
-                    <div style="padding: 1rem; background: var(--gray-light); border-radius: 5px;">
-                        <h4 style="color: var(--accent-dark);">Mobility Workshop</h4>
-                        <p>Focus on flexibility, range of motion, and injury prevention</p>
-                    </div>
-                    <div style="padding: 1rem; background: var(--gray-light); border-radius: 5px;">
-                        <h4 style="color: var(--accent-dark);">Strength and Conditioning Bootcamp</h4>
-                        <p>High-energy group sessions combining strength training and cardiovascular conditioning</p>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="contact.html" class="btn btn-primary">Inquire About Group Training</a>
-                </div>
+            <p class="eyebrow eyebrow-centered">Train together</p>
+            <h2>Group Training Programs</h2>
+            <p class="section-intro">Explore supportive, energizing ways to move with your community.</p>
+            <div class="session-grid">
+                <article class="session-card">
+                    <h3>Women on Weights</h3>
+                    <p>Strength training designed for women of all fitness levels.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Squats for Tots</h3>
+                    <p>Family-friendly fitness sessions that get kids and parents moving together.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Mobility Workshop</h3>
+                    <p>Movement sessions focused on flexibility, range of motion, and injury prevention.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Strength &amp; Conditioning Bootcamp</h3>
+                    <p>High-energy group sessions combining strength training and cardiovascular conditioning.</p>
+                </article>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="contact.html" class="btn btn-primary">Ask About Training Sessions</a>
             </div>
         </div>
     </section>
@@ -258,7 +161,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="about.html">About Mia</a></li>
-                        <li><a href="services.html">Services & Pricing</a></li>
+                        <li><a href="services.html">Training Sessions</a></li>
                         <li><a href="programs.html">Programs</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>

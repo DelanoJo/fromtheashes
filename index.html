@@ -34,61 +34,65 @@
         </div>
     </nav>
 
+    <main>
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Transform Your Life Through Fitness</h1>
-            <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 2rem;">Personalized mobile training serving the Denver area. I come to you!</p>
+            <p class="eyebrow">Mobile personal training · Denver</p>
+            <h1>Fitness that meets you where you are.</h1>
+            <p class="hero-tagline">Personalized training that fits your goals, your pace, and your life. I come to you.</p>
             <div class="hero-buttons">
                 <a href="contact.html" class="btn btn-primary">Book Complimentary Consultation</a>
-                <a href="services.html" class="btn btn-secondary">View Services</a>
+                <a href="services.html" class="btn btn-secondary">Explore Session Types</a>
             </div>
+            <ul class="hero-points" aria-label="Training highlights">
+                <li>Personalized coaching</li>
+                <li>All fitness levels welcome</li>
+                <li>Mobile training</li>
+            </ul>
         </div>
         <div class="hero-image">
             <img src="images/new_headshot.jpeg" alt="Mia Johnson - Personal Trainer">
+            <div class="hero-image-note"><span aria-hidden="true">✦</span> A plan built around you</div>
         </div>
     </section>
 
     <!-- Services Overview -->
     <section class="services-overview">
         <div class="container">
+            <p class="eyebrow eyebrow-centered">Ways to train</p>
             <h2>How I Can Help You</h2>
+            <p class="section-intro">Choose the format that helps you feel supported, challenged, and excited to keep moving.</p>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">💪</div>
-                    <h3>Personal Training</h3>
-                    <p>One-on-one customized training programs designed specifically for your goals. Mobile trainer - I come to you!</p>
+                    <h3>Individual Training</h3>
+                    <p>One-on-one coaching with a plan designed specifically for your goals.</p>
                     <ul>
-                        <li>30, 45, or 60-minute sessions</li>
-                        <li>Train at home, work, or outdoors</li>
-                        <li>Personalized workout plans</li>
+                        <li>Focused instruction and feedback</li>
+                        <li>Progress that meets you where you are</li>
                     </ul>
                     <a href="services.html#personal" class="btn-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">👥</div>
-                    <h3>Group Training</h3>
-                    <p>Fun, motivating group sessions that build community while achieving fitness goals together.</p>
+                    <h3>Partner Training</h3>
+                    <p>Train alongside a friend or family member for shared energy and accountability.</p>
                     <ul>
-                        <li>Small groups (3-8 people)</li>
-                        <li>Women on Weights program</li>
-                        <li>Squats for Tots</li>
-                        <li>Mobility Workshop</li>
-                        <li>Strength and Conditioning Bootcamp</li>
-                        <li>All fitness levels welcome</li>
+                        <li>Individualized guidance for both of you</li>
+                        <li>Support, teamwork, and motivation</li>
                     </ul>
-                    <a href="services.html#group" class="btn-link">Learn More →</a>
+                    <a href="services.html#personal" class="btn-link">Learn More →</a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🎯</div>
-                    <h3>Specialized Programs</h3>
-                    <p>Expert training for specific needs including prenatal, senior fitness, and functional movement.</p>
+                    <h3>Small Group Training</h3>
+                    <p>Move together in a welcoming small-group setting for 3–8 people.</p>
                     <ul>
-                        <li>Prenatal & postnatal fitness</li>
-                        <li>Senior strength training</li>
-                        <li>Medical condition support</li>
+                        <li>Programs for every fitness level</li>
+                        <li>Community-powered motivation</li>
                     </ul>
-                    <a href="programs.html" class="btn-link">Learn More →</a>
+                    <a href="services.html#group" class="btn-link">Learn More →</a>
                 </div>
             </div>
         </div>
@@ -97,9 +101,10 @@
     <!-- Featured Testimonials -->
     <section class="testimonials-preview">
         <div class="container">
+            <p class="eyebrow eyebrow-centered">Client stories</p>
             <h2>What Clients Are Saying</h2>
             <div class="testimonial-carousel-container">
-                <div class="testimonial-carousel">
+                <div class="testimonial-carousel" aria-roledescription="carousel" aria-label="Client testimonials">
                     <!-- Panel 1 -->
                     <div class="carousel-panel active">
                         <div class="testimonial-card">
@@ -152,6 +157,7 @@
                     <button class="carousel-prev" aria-label="Previous testimonials">‹</button>
                     <button class="carousel-next" aria-label="Next testimonials">›</button>
                 </div>
+                <div class="carousel-dots" aria-label="Choose a testimonial group"></div>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="testimonials.html" class="btn btn-secondary">Read More Success Stories</a>
@@ -162,6 +168,7 @@
     <!-- Why Choose Me -->
     <section class="why-choose">
         <div class="container">
+            <p class="eyebrow eyebrow-centered">The From The Ashes approach</p>
             <h2>Why Train With Me?</h2>
             <div class="features-grid">
                 <div class="feature">
@@ -192,6 +199,7 @@
             <a href="contact.html" class="btn btn-primary btn-large">Book Your Complimentary Consultation</a>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -205,7 +213,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="about.html">About Mia</a></li>
-                        <li><a href="services.html">Services & Pricing</a></li>
+                        <li><a href="services.html">Training Sessions</a></li>
                         <li><a href="programs.html">Programs</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>

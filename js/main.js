@@ -3,31 +3,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
 
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
+    if (navToggle && navMenu) {
+        if (!navMenu.id) navMenu.id = 'primary-navigation';
+        navToggle.setAttribute('aria-controls', navMenu.id);
+        navToggle.setAttribute('aria-expanded', 'false');
 
-            // Animate hamburger menu
+        function setMenuState(isOpen) {
+            navMenu.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+
             const spans = navToggle.querySelectorAll('span');
-            if (navMenu.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translateY(8px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translateY(-8px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
+            spans[0].style.transform = isOpen ? 'rotate(45deg) translateY(8px)' : 'none';
+            spans[1].style.opacity = isOpen ? '0' : '1';
+            spans[2].style.transform = isOpen ? 'rotate(-45deg) translateY(-8px)' : 'none';
+        }
+
+        navToggle.addEventListener('click', function() {
+            setMenuState(!navMenu.classList.contains('active'));
         });
 
         // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             if (!navToggle.contains(event.target) && !navMenu.contains(event.target)) {
-                navMenu.classList.remove('active');
-                const spans = navToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                setMenuState(false);
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+                setMenuState(false);
+                navToggle.focus();
             }
         });
 
@@ -35,11 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                const spans = navToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                setMenuState(false);
             });
         });
     }
@@ -60,20 +61,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add scroll effect to navbar
-    let lastScroll = 0;
+    // Add scroll feedback and an easy way back to the top.
     const navbar = document.querySelector('.navbar');
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.setAttribute('aria-hidden', 'true');
+    document.body.prepend(progressBar);
 
-    window.addEventListener('scroll', () => {
+    const backToTop = document.createElement('button');
+    backToTop.className = 'back-to-top';
+    backToTop.type = 'button';
+    backToTop.setAttribute('aria-label', 'Back to top');
+    backToTop.innerHTML = '↑';
+    document.body.append(backToTop);
+
+    function updateScrollUI() {
         const currentScroll = window.pageYOffset;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? currentScroll / totalHeight : 0;
 
-        if (currentScroll > 100) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-        } else {
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        progressBar.style.transform = `scaleX(${progress})`;
+        if (navbar) {
+            navbar.classList.toggle('is-scrolled', currentScroll > 12);
         }
+        backToTop.classList.toggle('is-visible', currentScroll > 500);
+    }
 
-        lastScroll = currentScroll;
+    updateScrollUI();
+    window.addEventListener('scroll', updateScrollUI, { passive: true });
+    window.addEventListener('resize', updateScrollUI);
+
+    backToTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // Form validation and submission for contact form
@@ -190,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
 
     // Observe elements with animation classes
-    const animatedElements = document.querySelectorAll('.service-card, .testimonial-card, .feature, .pricing-card');
+    const animatedElements = document.querySelectorAll('.service-card, .testimonial-card, .feature, .session-card');
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
@@ -198,21 +217,92 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
+    // Session type explorer on the services page
+    const sessionSelectors = document.querySelectorAll('[data-session]');
+    const sessionDetail = document.querySelector('.session-detail');
+    if (sessionSelectors.length && sessionDetail) {
+        const sessionOptions = {
+            individual: {
+                kicker: 'Individual training',
+                title: 'Dedicated, one-on-one support',
+                description: 'Build confidence with coaching that adapts to your goals, experience, and progress.',
+                benefits: ['Personalized programming', 'Focused form feedback', 'Clear next steps for your goals']
+            },
+            partner: {
+                kicker: 'Partner training',
+                title: 'Progress is more fun together',
+                description: 'Move alongside a friend or family member while each of you receives coaching tailored to your needs.',
+                benefits: ['Shared accountability', 'Partner-focused workouts', 'Individualized guidance for both']
+            },
+            group: {
+                kicker: 'Small group training',
+                title: 'Big energy in a supportive setting',
+                description: 'Train with 3–8 people through scalable workouts that keep every participant moving with confidence.',
+                benefits: ['Welcoming all fitness levels', 'Community motivation', 'Shared momentum and support']
+            }
+        };
+
+        const detailKicker = sessionDetail.querySelector('.detail-kicker');
+        const detailTitle = sessionDetail.querySelector('[data-session-title]');
+        const detailDescription = sessionDetail.querySelector('[data-session-description]');
+        const detailBenefits = sessionDetail.querySelector('[data-session-benefits]');
+
+        function selectSession(key) {
+            const session = sessionOptions[key];
+            if (!session) return;
+
+            sessionSelectors.forEach(selector => {
+                const isSelected = selector.dataset.session === key;
+                selector.classList.toggle('is-selected', isSelected);
+                selector.setAttribute('aria-pressed', String(isSelected));
+            });
+
+            detailKicker.textContent = session.kicker;
+            detailTitle.textContent = session.title;
+            detailDescription.textContent = session.description;
+            detailBenefits.replaceChildren(...session.benefits.map(benefit => {
+                const item = document.createElement('li');
+                item.textContent = benefit;
+                return item;
+            }));
+        }
+
+        sessionSelectors.forEach(selector => {
+            selector.addEventListener('click', () => selectSession(selector.dataset.session));
+        });
+    }
+
     // Testimonial Carousel
     const carousel = document.querySelector('.testimonial-carousel');
     if (carousel) {
         const panels = carousel.querySelectorAll('.carousel-panel');
         const prevBtn = document.querySelector('.carousel-prev');
         const nextBtn = document.querySelector('.carousel-next');
+        const dotsContainer = document.querySelector('.carousel-dots');
         let currentPanel = 0;
+        let autoRotate;
+        const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        panels.forEach((panel, index) => {
+            panel.setAttribute('role', 'group');
+            panel.setAttribute('aria-roledescription', 'slide');
+            panel.setAttribute('aria-label', `${index + 1} of ${panels.length}`);
+        });
+
+        const dots = dotsContainer ? Array.from(panels, (_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Show testimonial group ${index + 1}`);
+            dot.addEventListener('click', () => {
+                showPanel(index);
+                restartAutoRotate();
+            });
+            dotsContainer.append(dot);
+            return dot;
+        }) : [];
 
         function showPanel(n) {
-            // Remove active class from all panels
-            panels.forEach((panel) => {
-                panel.classList.remove('active');
-            });
-
-            // Handle wrap-around
             if (n >= panels.length) {
                 currentPanel = 0;
             } else if (n < 0) {
@@ -221,24 +311,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentPanel = n;
             }
 
-            // Add active class to current panel
-            panels[currentPanel].classList.add('active');
+            panels.forEach((panel, index) => {
+                const isActive = index === currentPanel;
+                panel.classList.toggle('active', isActive);
+                panel.setAttribute('aria-hidden', String(!isActive));
+            });
+
+            dots.forEach((dot, index) => {
+                dot.setAttribute('aria-current', String(index === currentPanel));
+            });
+        }
+
+        function stopAutoRotate() {
+            window.clearInterval(autoRotate);
+        }
+
+        function restartAutoRotate() {
+            stopAutoRotate();
+            if (!shouldReduceMotion) {
+                autoRotate = window.setInterval(() => showPanel(currentPanel + 1), 8500);
+            }
         }
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 showPanel(currentPanel - 1);
+                restartAutoRotate();
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
                 showPanel(currentPanel + 1);
+                restartAutoRotate();
             });
         }
 
-        // Initialize first panel
+        carousel.addEventListener('mouseenter', stopAutoRotate);
+        carousel.addEventListener('mouseleave', restartAutoRotate);
+        carousel.addEventListener('focusin', stopAutoRotate);
+        carousel.addEventListener('focusout', restartAutoRotate);
+
         showPanel(0);
+        restartAutoRotate();
     }
 });
 
