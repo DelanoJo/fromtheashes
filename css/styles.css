@@ -804,6 +804,75 @@ h3 {
     color: var(--gray-medium);
 }
 
+.footer-bottom a {
+    color: var(--white);
+    margin-left: 0.5rem;
+}
+
+/* Cookie consent */
+.cookie-consent {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 2000;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    width: min(100% - 2rem, 1050px);
+    margin: 0 auto;
+    padding: 1.25rem;
+    color: var(--white);
+    background: var(--primary-darker);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 1rem;
+    box-shadow: 0 24px 60px rgba(6, 31, 39, 0.35);
+}
+
+.cookie-consent[hidden] {
+    display: none;
+}
+
+.cookie-consent__title {
+    margin: 0 0 0.35rem;
+    color: var(--white);
+    font-size: 1.15rem;
+}
+
+.cookie-consent p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.cookie-consent a {
+    color: var(--highlight-color);
+}
+
+.cookie-consent__actions {
+    display: flex;
+    gap: 0.65rem;
+}
+
+.cookie-consent .btn {
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+
+.cookie-consent .btn-secondary {
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.55);
+}
+
+.privacy-content code {
+    padding: 0.1rem 0.3rem;
+    background: var(--gray-light);
+    border-radius: 0.25rem;
+    font-size: 0.92em;
+}
+
 /* Page Headers */
 .page-header {
     background:
@@ -1222,6 +1291,19 @@ h3 {
     .content-section .container { min-width: 0; }
     .content-section [style*="display: flex"] { min-width: 0; }
     .content-section [style*="justify-content: center"] { flex-wrap: wrap; }
+    .cookie-consent {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-height: calc(100dvh - 2rem);
+        overflow-y: auto;
+    }
+    .cookie-consent__actions {
+        flex-direction: column-reverse;
+    }
+    .cookie-consent .btn {
+        width: 100%;
+        white-space: normal;
+    }
 }
 
 @media (scripting: none) {

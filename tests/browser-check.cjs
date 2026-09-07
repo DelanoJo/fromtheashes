@@ -7,12 +7,15 @@ const os = require('node:os');
 const path = require('node:path');
 const base = process.env.FTA_BASE_URL || 'http://127.0.0.1:4175';
 const artifacts = fs.mkdtempSync(path.join(os.tmpdir(), 'fta-seo-review-'));
-const routes = ['/', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/denver-personal-trainer/'];
+const routes = ['/', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/privacy.html', '/denver-personal-trainer/'];
 
 async function run() {
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
     try {
         const context = await browser.newContext({ reducedMotion: 'reduce' });
+        await context.addInitScript(() => {
+            try { localStorage.setItem('fta_cookie_consent_v1', 'granted'); } catch (_) {}
+        });
         await context.route('https://www.google.com/recaptcha/api.js', route => route.fulfill({
             contentType: 'application/javascript',
             body: 'window.grecaptcha={getResponse:()=>"test-only-token",reset:()=>{}};'
@@ -37,7 +40,7 @@ async function run() {
                 assert.equal(await page.locator('h1').count(), 1);
                 assert.ok(await page.locator('h1').isVisible());
                 assert.deepEqual(await page.locator('.nav-menu a').allTextContents(), ['Home', 'Personal Training', 'Programs', 'Testimonials', 'About Mia', 'Book Consultation']);
-                assert.equal(await page.locator('.nav-menu a[aria-current="page"]').count(), 1);
+                assert.equal(await page.locator('.nav-menu a[aria-current="page"]').count(), route === '/privacy.html' ? 0 : 1);
                 await page.evaluate(async () => {
                     for (let y = 0; y < document.body.scrollHeight; y += 700) {
                         window.scrollTo(0, y);
@@ -131,23 +134,74 @@ async function run() {
         await page.evaluate(() => {
             document.addEventListener('click', event => event.preventDefault());
             document.querySelector('a[href^="mailto:"]').click();
-            const phone = document.createElement('a'); phone.href = 'tel:+15550000000';
-            document.body.append(phone); phone.click(); phone.remove();
+            document.querySelector('a[href^="tel:"]').click();
             document.querySelector('a[href="#contact-form"]').click();
         });
         const events = await page.evaluate(() => window.dataLayer.map(item => item?.event || (item?.[0] === 'event' ? item[1] : undefined)));
-        for (const event of ['email_click', 'phone_click', 'consultation_cta_click']) assert.ok(events.includes(event));
+        for (const event of ['click_email', 'click_phone', 'consultation_cta']) assert.ok(events.includes(event));
 
         // A new campaign starts a clean attribution set, without mixing old click IDs.
         await page.goto(base + '/contact.html?utm_source=newsletter&utm_campaign=autumn');
         assert.equal(await page.locator('input[name="utm_source"]').inputValue(), 'newsletter');
         assert.equal(await page.locator('input[name="gclid"]').count(), 0);
         const blocked = await browser.newContext();
-        await blocked.addInitScript(() => Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('Storage unavailable'); } }));
+        const blockedErrors = [];
+        await blocked.addInitScript(() => {
+            try { localStorage.setItem('fta_cookie_consent_v1', 'granted'); } catch (_) {}
+            Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('Storage unavailable'); } });
+        });
+        await blocked.route('https://www.googletagmanager.com/**', route => route.abort());
         const blockedPage = await blocked.newPage();
+        blockedPage.on('pageerror', error => blockedErrors.push(error.message));
         await blockedPage.goto(base + '/contact.html?utm_source=direct-test');
         assert.equal(await blockedPage.locator('input[name="utm_source"]').inputValue(), 'direct-test');
+        assert.ok(await blockedPage.locator('h1').isVisible(), 'Site works when the Google tag is blocked');
+        assert.deepEqual(blockedErrors, []);
         await blocked.close();
+
+        // Optional tracking stays off until consent and remains off after decline.
+        const declineContext = await browser.newContext({ viewport: { width: 375, height: 812 } });
+        let declinedTagLoads = 0;
+        await declineContext.route('https://www.googletagmanager.com/**', route => {
+            declinedTagLoads += 1;
+            return route.abort();
+        });
+        const declinePage = await declineContext.newPage();
+        await declinePage.goto(base + '/?utm_source=declined&utm_campaign=private');
+        assert.ok(await declinePage.locator('.cookie-consent').isVisible());
+        assert.equal(declinedTagLoads, 0, 'Google tag does not load before consent');
+        assert.equal(await declinePage.evaluate(() => sessionStorage.getItem('fta_campaign_session_v1')), null);
+        await declinePage.getByRole('button', { name: 'Decline optional tracking' }).click();
+        assert.equal(await declinePage.evaluate(() => localStorage.getItem('fta_cookie_consent_v1')), 'denied');
+        await declinePage.goto(base + '/contact.html');
+        assert.equal(await declinePage.locator('input[name="utm_source"]').count(), 0);
+        assert.equal(declinedTagLoads, 0);
+        await declinePage.getByText('Cookie preferences', { exact: true }).click();
+        assert.ok(await declinePage.locator('.cookie-consent').isVisible());
+        await declineContext.close();
+
+        // Consent loads GA4 once and enables invisible, session-scoped attribution.
+        const acceptContext = await browser.newContext({ viewport: { width: 375, height: 812 } });
+        let acceptedTagLoads = 0;
+        await acceptContext.route('https://www.googletagmanager.com/gtag/js*', route => {
+            acceptedTagLoads += 1;
+            return route.fulfill({ contentType: 'application/javascript', body: '/* Consent test fixture. */' });
+        });
+        const acceptPage = await acceptContext.newPage();
+        await acceptPage.goto(base + '/?utm_source=google&utm_campaign=consent-test&gclid=accepted-click');
+        assert.equal(acceptedTagLoads, 0);
+        await acceptPage.screenshot({ path: path.join(artifacts, 'cookie-consent-375.png') });
+        await acceptPage.getByRole('button', { name: 'Accept optional tracking' }).click();
+        await acceptPage.locator('script[data-fta-analytics="true"]').waitFor({ state: 'attached' });
+        assert.equal(acceptedTagLoads, 1);
+        assert.equal(await acceptPage.evaluate(() => localStorage.getItem('fta_cookie_consent_v1')), 'granted');
+        assert.match(await acceptPage.evaluate(() => sessionStorage.getItem('fta_campaign_session_v1')), /consent-test/);
+        assert.equal((await acceptPage.evaluate(() => (window.dataLayer || []).filter(item =>
+            item?.event === 'generate_lead' || (item?.[0] === 'event' && item?.[1] === 'generate_lead')
+        ).length)), 0, 'Ordinary page load is not a conversion');
+        await acceptPage.goto(base + '/contact.html');
+        assert.equal(await acceptPage.locator('input[name="utm_campaign"]').inputValue(), 'consent-test');
+        await acceptContext.close();
 
         const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
         const plain = await noJS.newPage();
@@ -165,7 +219,7 @@ async function run() {
         }
         assert.deepEqual(errors, []);
         fs.writeFileSync(path.join(artifacts, 'results.json'), JSON.stringify({ results, formTests: 'passed', runtimeErrors: errors }, null, 2));
-        console.log(`PASS: ${results.length} responsive page checks; menu, session selector, FAQs, no-JS navigation, attribution, storage failure, click hooks, and confirmed lead success/failure checks. Screenshots: ${artifacts}`);
+        console.log(`PASS: ${results.length} responsive page checks; consent accept/decline, tracking-blocker fallback, menu, session selector, FAQs, no-JS navigation, attribution, storage failure, click hooks, and confirmed lead success/failure checks. Screenshots: ${artifacts}`);
     } finally { await browser.close(); }
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

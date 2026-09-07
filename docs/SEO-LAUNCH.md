@@ -2,9 +2,9 @@
 
 ## What's implemented
 
-The existing GitHub Pages site remains plain static HTML/CSS/JavaScript. Six pages are intended for indexing: homepage, Personal Training, Programs, About Mia, Testimonials, and Contact. Each has a unique title and description, HTTPS non-www canonical, social metadata, and static JSON-LD. Personal Training is `/denver-personal-trainer/` and includes the session selector, group programs, session inclusions, mobile-training guide, and FAQs.
+The existing GitHub Pages site remains plain static HTML/CSS/JavaScript. Seven pages are intended for indexing: homepage, Personal Training, Programs, About Mia, Testimonials, Contact, and Privacy. Each has a unique title and description, HTTPS non-www canonical, social metadata, and static JSON-LD. Personal Training is `/denver-personal-trainer/` and includes the session selector, group programs, session inclusions, mobile-training guide, and FAQs.
 
-The homepage establishes the service, city, trainer, certification, experience, and background in visible text. The business email is `mia@fromtheashes.fit`, confirmed by the owner on September 7, 2026. No public phone or street address has been supplied. Do not add either without confirmation.
+The homepage establishes the service, city, trainer, certification, experience, and background in visible text. The business email is `mia@fromtheashes.fit`, confirmed by the owner on September 7, 2026. The public phone is `(720) 336-9665`, confirmed from the owner-managed Google Business Profile. No street address is published because this is a service-area business.
 
 The review document and 404 page are intentionally `noindex, follow` and excluded from the sitemap. They remain crawlable so bots can read their directives. `/index.html` stays available for old links but canonicalizes to `/`. `/services.html` now redirects to `/denver-personal-trainer/`; all site links and Service schema point directly to the combined page, and the sitemap excludes the retired Services URL. Other `.html` routes are preserved. `robots.txt` permits public content and points to the sitemap. Jekyll excludes maintenance documents, scripts, tests, and internal artifacts through `_config.yml`.
 
@@ -44,7 +44,7 @@ Confirm inside Formspree that this endpoint belongs to Mia, delivers to `mia@fro
 
 ## Campaign attribution
 
-`js/analytics.js` records an allowlist of `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `utm_id`, `utm_source_platform`, `gclid`, `gbraid`, and `wbraid` in sessionStorage. It also records the canonical landing path and external referring origin, excluding full query strings and referrer paths. These values become hidden fields in the consultation form and are sent to Formspree with the inquiry.
+After optional tracking is accepted, `js/analytics.js` records an allowlist of `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `utm_id`, `utm_source_platform`, `gclid`, `gbraid`, and `wbraid` in sessionStorage. It also records the canonical landing path and external referring origin, excluding full query strings and referrer paths. These values become hidden fields in the consultation form and are sent to Formspree with the inquiry. Declining tracking prevents this storage and removes any attribution fields.
 
 Attribution survives same-tab navigation and refreshes. Direct/internal page visits preserve the current campaign. A visit containing new campaign values replaces the campaign as a set, preventing stale click IDs from being mixed into a later source. It ends with the browser tab/session. If sessionStorage is unavailable, current-page attribution still works, but it cannot persist between pages. Cross-device attribution is not provided. Campaign URLs should never contain personal or health information.
 
@@ -55,20 +55,26 @@ Google Analytics 4 is installed using web stream `From The Ashes Fitness Website
 | Event | Trigger | Non-personal payload |
 | --- | --- | --- |
 | `generate_lead` | Formspree responds successfully to the consultation request | canonical `page_path`, `form_id: contact-form`, `lead_type: complimentary_consultation` |
-| `consultation_cta_click` | A same-site contact/consultation link is activated | canonical `page_path`, `cta_location` |
-| `email_click` | A `mailto:` link is activated | canonical `page_path`, `cta_location` |
-| `phone_click` | A `tel:` link is activated | canonical `page_path`, `cta_location` |
+| `consultation_cta` | A same-site contact/consultation link is activated | canonical `page_path`, `cta_location` |
+| `click_email` | A `mailto:` link is activated | canonical `page_path`, `cta_location` |
+| `click_phone` | A `tel:` link is activated | canonical `page_path`, `cta_location` |
 
-There is no public telephone link because no real business phone was supplied. The hook will work when one is added. Clicks are not leads or completed calls. The form submit button itself does not trigger a conversion. Names, emails, telephone numbers, message text, health information, and the selected service are not included in these event payloads.
+The public phone and domain email are linked on the Contact page and every footer. Clicks are not leads or completed calls. The form submit button itself does not trigger a conversion. Names, emails, telephone numbers, message text, health information, and the selected service are not included in these event payloads.
+
+## Consent and privacy
+
+The site uses Google's **basic consent mode**. Before a visitor chooses, analytics storage, advertising storage, advertising user data, and advertising personalization default to denied; the Google tag does not load. “Accept optional tracking” grants analytics and advertising-measurement consent, while advertising personalization remains denied. “Decline optional tracking” keeps the tag off, clears attribution storage, and attempts to remove existing GA cookies. The saved choice can be reopened from the footer or Privacy page.
+
+Campaign attribution and conversion events require consent. The consultation form, navigation, and all site content continue to work after decline or when the Google tag is blocked. `privacy.html` explains Formspree, reCAPTCHA, GA4 cookies, campaign attribution, contact data, and choices. This custom banner is a technical implementation, not a legal determination for every visitor jurisdiction; review it with qualified counsel if the advertising program expands beyond the current Denver-area audience.
 
 Google Analytics reporting is active. Supply these only if the advertising setup later requires them:
 
 - **Google Tag Manager (optional):** a real `GTM-...` container ID only if the direct Google tag is intentionally replaced.
 - **Google Ads (for direct Ads conversions):** the real `AW-...` conversion ID **and the conversion label** for the confirmed consultation-lead action.
 
-`generate_lead` is preconfigured under **Admin → Events** as a code-generated key event. It uses the recommended once-per-event counting method and has no default monetary value. No fake production inquiry was submitted. If Tag Manager is adopted later, replace the direct Google tag and configure equivalent Custom Event triggers; do not deploy both transports for the same events.
+All four custom events are preconfigured under **Admin → Events** as code-generated key events. They use once-per-event counting and have no default monetary value. No fake production inquiry was submitted. In Google Ads, import `generate_lead` as Primary and the three click/CTA events as Secondary. If Tag Manager is adopted later, replace the direct Google tag and configure equivalent Custom Event triggers; do not deploy both transports for the same events.
 
-For Ads: either import the GA4 lead key event into Ads or use the actual Ads ID/label on the `generate_lead` trigger. Choose one primary conversion path. Review account auto-tagging/Conversion Linker settings and the site's consent requirements before enabling production collection. Hidden click IDs in a Formspree inquiry alone do not upload conversions to Google Ads. Do not assign an invented lead value or treat generic `form_submit` auto-measurement as a confirmed lead.
+For Ads: import the GA4 key events or use an actual Ads ID/label on the `generate_lead` trigger. Choose one primary conversion path. Review account auto-tagging/Conversion Linker settings and the site's consent requirements before enabling production collection. Hidden click IDs in a Formspree inquiry alone do not upload conversions to Google Ads. Do not assign an invented lead value or treat generic `form_submit` auto-measurement as a confirmed lead. Detailed test and import instructions are in [CONVERSION-TESTING.md](CONVERSION-TESTING.md).
 
 Use GA4 DebugView / GTM Preview and a controlled successful submission to verify one lead event, with none on validation errors or failed submissions. Reference: [Google's generate_lead definition](https://developers.google.com/analytics/devguides/collection/ga4/reference/events#generate_lead).
 
@@ -85,6 +91,6 @@ node tests/browser-check.cjs
 git diff --check
 ```
 
-The browser check requires Playwright on Node's module search path and an installed Chrome; those are QA tools, not site dependencies. It checks all six public pages at 320, 375, 768, and 1440 pixels, images, navigation with and without JavaScript, the legacy redirect, session selection, FAQs, attribution persistence, blocked storage, click hooks, and simulated success/failure/duplicate submission cases. Its screenshots/results are saved in a temporary directory printed when it finishes. The simple local HTTP server returns generic 404 responses; GitHub Pages uses the branded `404.html` for missing production paths.
+The browser check requires Playwright on Node's module search path and an installed Chrome; those are QA tools, not site dependencies. It checks all seven public pages at 320, 375, 768, and 1440 pixels, images, navigation with and without JavaScript, consent accept/decline, tracking blockers, the legacy redirect, session selection, FAQs, attribution persistence, blocked storage, click hooks, and simulated success/failure/duplicate submission cases. Its screenshots/results are saved in a temporary directory printed when it finishes. The simple local HTTP server returns generic 404 responses; GitHub Pages uses the branded `404.html` for missing production paths.
 
 Add future public pages to the sitemap and provide matching unique metadata and root-safe internal links. Keep entity IDs stable (`/#business` and `/#mia-johnson`). Reuse the same confirmed facts in visible content and JSON-LD. WebP files in `images/optimized/` are resized copies; original photographs are preserved.

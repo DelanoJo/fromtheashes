@@ -91,6 +91,8 @@ def crawl():
             if not any('noindex' in s for s in page.meta('robots')): issues.append(f'{path}: missing intentional noindex')
             continue
         if any('noindex' in s for s in page.meta('robots')): issues.append(f'{path}: blocked from indexing')
+        if '/js/consent.js' not in source or '<script async src="https://www.googletagmanager.com' in source:
+            issues.append(f'{path}: missing consent-first analytics loader')
         if sum(t == 'h1' for t, a in page.tags) != 1: issues.append(f'{path}: expected one H1')
         if not page.title or page.title in titles: issues.append(f'{path}: missing/duplicate title')
         titles.add(page.title)
@@ -104,9 +106,10 @@ def crawl():
         if not page.json: issues.append(f'{path}: missing JSON-LD')
         for value in page.json:
             graph = json.loads(value)
-            for item in graph['@graph']:
+            for item in graph.get('@graph', [graph]):
                 if item['@type'] == 'LocalBusiness':
                     if item.get('email') != 'mia@fromtheashes.fit': issues.append(f'{path}: wrong business email')
+                    if item.get('telephone') != '+1-720-336-9665': issues.append(f'{path}: wrong business phone')
                     if any(k in item for k in ['address', 'geo', 'aggregateRating', 'review', 'priceRange']): issues.append(f'{path}: unapproved business facts')
         for tag, attrs in page.tags:
             if tag == 'img' and (not attrs.get('alt') or not attrs.get('width') or not attrs.get('height')):

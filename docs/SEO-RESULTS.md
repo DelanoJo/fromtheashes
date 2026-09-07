@@ -1,5 +1,13 @@
 # SEO implementation and validation — September 7, 2026
 
+## Follow-up: consent, privacy, and conversion names
+
+Added a consent-first Google tag loader using Google's basic consent mode. The tag and campaign-attribution storage remain off until the visitor accepts optional tracking; advertising personalization remains denied. Declining keeps the site and consultation form working, clears attribution, and attempts to remove GA cookies. Visitors can reopen Cookie preferences from every footer or the new Privacy page.
+
+Added `privacy.html`, a sitemap entry, linked privacy/cookie controls, and the owner-managed Business Profile phone `(720) 336-9665` as a tracked `tel:` link. LocalBusiness schema now includes that confirmed phone. Secondary events now use the requested names: `click_phone`, `click_email`, and `consultation_cta`. The primary event remains `generate_lead` and still requires Formspree's successful response.
+
+All four events are preconfigured in GA4 as key events with once-per-event counting and no default monetary value. For the later Ads import, `generate_lead` is the intended Primary action; the three interaction events are Secondary. Browser and Ads testing instructions are recorded in `docs/CONVERSION-TESTING.md`.
+
 ## Follow-up: Google Analytics and Business Profile
 
 The Google Analytics account/property and web stream `From The Ashes Fitness Website` were created under `mia.burkhardt@outlook.com`. The reporting time zone is Denver, currency is USD, industry is Beauty & Fitness, business size is 1–10 employees, and the selected objectives are lead generation and website traffic. Measurement ID `G-MJFKPDR0WN` is installed on the six canonical public pages. The existing `generate_lead`, consultation CTA, email, and phone click hooks now send through the direct Google tag.

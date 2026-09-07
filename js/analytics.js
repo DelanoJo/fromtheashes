@@ -1,4 +1,4 @@
-// Session attribution and integration-ready events. No analytics vendor is loaded here.
+// Consent-aware campaign attribution and GA4 events.
 (function () {
     'use strict';
 
@@ -15,52 +15,68 @@
         return typeof value === 'string' ? value.replace(/[\u0000-\u001f\u007f]/g, '').slice(0, 250) : '';
     }
 
-    // Whitelist fields even when restoring storage. Never store names, contact data,
-    // goals, health details, full query strings, or arbitrary URL parameters.
-    try {
-        const stored = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
-        for (const key of [...campaignKeys, 'landing_page', 'referrer_origin']) {
-            const value = clean(stored && stored[key]);
-            if (value) attribution[key] = value;
-        }
-    } catch (_) {
-        // Disabled storage or malformed data must not interfere with booking.
+    function hasConsent() {
+        return window.FTAConsent?.hasAnalyticsConsent() === true;
     }
 
-    const params = new URLSearchParams(window.location.search);
-    const hasCampaign = campaignKeys.some(key => clean(params.get(key)));
-    if (hasCampaign || !attribution.landing_page) {
-        attribution = { landing_page: pagePath };
+    function initializeAttribution() {
+        if (!hasConsent()) return clearAttribution();
+        attribution = {};
+
+        // Whitelist fields even when restoring storage. Never store names, contact
+        // data, goals, health details, full query strings, or arbitrary parameters.
         try {
-            const referrer = new URL(document.referrer);
-            if (/^https?:$/.test(referrer.protocol) && referrer.origin !== window.location.origin) {
-                attribution.referrer_origin = referrer.origin;
+            const stored = JSON.parse(sessionStorage.getItem(storageKey) || '{}');
+            for (const key of [...campaignKeys, 'landing_page', 'referrer_origin']) {
+                const value = clean(stored && stored[key]);
+                if (value) attribution[key] = value;
             }
-        } catch (_) { /* An empty referrer is normal. */ }
-        for (const key of campaignKeys) {
-            const value = clean(params.get(key));
-            if (value) attribution[key] = value;
+        } catch (_) { /* Current-page attribution still works without storage. */ }
+
+        const params = new URLSearchParams(window.location.search);
+        const hasCampaign = campaignKeys.some(key => clean(params.get(key)));
+        if (hasCampaign || !attribution.landing_page) {
+            attribution = { landing_page: pagePath };
+            try {
+                const referrer = new URL(document.referrer);
+                if (/^https?:$/.test(referrer.protocol) && referrer.origin !== window.location.origin) {
+                    attribution.referrer_origin = referrer.origin;
+                }
+            } catch (_) { /* An empty referrer is normal. */ }
+            for (const key of campaignKeys) {
+                const value = clean(params.get(key));
+                if (value) attribution[key] = value;
+            }
         }
+        try { sessionStorage.setItem(storageKey, JSON.stringify(attribution)); }
+        catch (_) { /* Current-page attribution remains available. */ }
+
+        const form = document.getElementById('contact-form');
+        if (form) populateForm(form);
     }
-    try {
-        sessionStorage.setItem(storageKey, JSON.stringify(attribution));
-    } catch (_) { /* Current-page attribution still works without storage. */ }
+
+    function clearAttribution() {
+        attribution = {};
+        try { sessionStorage.removeItem(storageKey); } catch (_) { /* Storage may be disabled. */ }
+        document.querySelectorAll('[data-fta-attribution]').forEach(input => input.remove());
+    }
 
     function populateForm(form) {
+        form.querySelectorAll('[data-fta-attribution]').forEach(input => input.remove());
+        if (!hasConsent()) return;
         for (const [key, value] of Object.entries(attribution)) {
-            let input = form.querySelector(`input[name="${key}"]`);
-            if (!input) {
-                input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                form.append(input);
-            }
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.dataset.ftaAttribution = 'true';
             input.value = value;
+            form.append(input);
         }
     }
 
     function track(name, details = {}) {
-        if (!['generate_lead', 'phone_click', 'email_click', 'consultation_cta_click'].includes(name)) return;
+        if (!hasConsent()) return;
+        if (!['generate_lead', 'click_phone', 'click_email', 'consultation_cta'].includes(name)) return;
         const event = { event: name, page_path: pagePath };
         for (const key of ['form_id', 'lead_type', 'cta_location']) {
             if (details[key]) event[key] = clean(details[key]);
@@ -79,8 +95,11 @@
     }
 
     window.FTAAnalytics = { track, populateForm };
-    const form = document.getElementById('contact-form');
-    if (form) populateForm(form);
+    initializeAttribution();
+    window.addEventListener('fta:consent-changed', function (event) {
+        if (event.detail?.choice === 'granted') initializeAttribution();
+        else clearAttribution();
+    });
 
     document.addEventListener('click', function (event) {
         const link = event.target.closest('a[href]');
@@ -89,13 +108,13 @@
         const ctaLocation = link.closest('.navbar') ? 'navigation'
             : link.closest('.hero') ? 'hero'
             : link.closest('.footer') ? 'footer' : 'content';
-        if (href.startsWith('tel:')) track('phone_click', { cta_location: ctaLocation });
-        else if (href.startsWith('mailto:')) track('email_click', { cta_location: ctaLocation });
+        if (href.startsWith('tel:')) track('click_phone', { cta_location: ctaLocation });
+        else if (href.startsWith('mailto:')) track('click_email', { cta_location: ctaLocation });
         else {
             const url = new URL(link.href);
             if (url.origin === window.location.origin &&
                 (url.pathname === '/contact.html' || url.hash === '#contact-form')) {
-                track('consultation_cta_click', { cta_location: ctaLocation });
+                track('consultation_cta', { cta_location: ctaLocation });
             }
         }
     });

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MJFKPDR0WN"></script>
+    <!-- Consent-first Google tag bootstrap -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-MJFKPDR0WN');
+        gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
     </script>
+    <script src="/js/consent.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Denver Training Consultation | From The Ashes Fitness</title>
@@ -165,7 +169,7 @@
                                 I'll contact you within 24 hours to schedule your consultation
                             </p>
                         </div>
-                        <p class="form-privacy-note">Your inquiry is sent to Mia through Formspree. If you arrived through a campaign link, its source information is included to help us understand how you found us.</p>
+                        <p class="form-privacy-note">Your inquiry is sent to Mia through Formspree. With your permission, campaign source information is included to help us understand how you found us. Read our <a href="/privacy.html">privacy policy</a>.</p>
                     </form>
                 </div>
             </div>
@@ -183,6 +187,12 @@
                     <div style="font-size: 2.5rem; margin-bottom: 1rem;">📧</div>
                     <h3>Email</h3>
                     <p><a href="mailto:mia@fromtheashes.fit" style="color: var(--accent-color); text-decoration: none;">mia@fromtheashes.fit</a></p>
+                </div>
+
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">☎️</div>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+17203369665" style="color: var(--accent-color); text-decoration: none;">(720) 336-9665</a></p>
                 </div>
 
                 <div style="text-align: center;">
@@ -262,6 +272,7 @@
                         <li><a href="about.html">About Mia</a></li>
                         <li><a href="programs.html">Programs</a></li>
                         <li><a href="contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -271,10 +282,11 @@
                         <a href="https://www.facebook.com/share/1CCCYpkAad/" target="_blank" rel="noopener" aria-label="Facebook"><img src="images/facebook.svg" alt="Facebook" style="width: 24px; height: 24px;" width="24" height="24" decoding="async"></a>
                     </div>
                     <p>Email: <a href="mailto:mia@fromtheashes.fit">mia@fromtheashes.fit</a></p>
+                    <p>Phone: <a href="tel:+17203369665">(720) 336-9665</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 From The Ashes Fitness. All rights reserved.</p>
+                <p>&copy; 2026 From The Ashes Fitness. All rights reserved. <a href="/privacy.html#cookie-preferences" data-cookie-preferences>Cookie preferences</a></p>
             </div>
         </div>
     </footer>
