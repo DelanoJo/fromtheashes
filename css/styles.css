@@ -862,6 +862,10 @@ h3 {
     margin: 2.5rem 0;
 }
 
+.group-program-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .session-card {
     background: var(--white);
     border-radius: 1.25rem;

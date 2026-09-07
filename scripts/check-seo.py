@@ -64,7 +64,7 @@ def crawl():
     assert f'Sitemap: {CANONICAL}/sitemap.xml' in (ROOT / 'robots.txt').read_text()
     assert not re.search(r'^Disallow:\s*/\s*$', (ROOT / 'robots.txt').read_text(), re.M)
     expected = {CANONICAL + '/', *[CANONICAL + '/' + p.name for p in ROOT.glob('*.html')
-                                 if p.name not in ('index.html', '404.html', 'print-review.html')]}
+                                 if p.name not in ('index.html', 'services.html', '404.html', 'print-review.html')]}
     expected.add(CANONICAL + '/denver-personal-trainer/')
     if set(sitemap) != expected: issues.append('Sitemap differs from canonical indexable pages')
 
@@ -77,6 +77,15 @@ def crawl():
         if re.search(r'mia\.burkhardt@outlook\.com', source): issues.append(f'{path}: outdated email')
         if re.search(r'\$\s*\d', source): issues.append(f'{path}: unexpected visible pricing')
         canonical = [a['href'] for t, a in page.tags if t == 'link' and a.get('rel') == 'canonical']
+        if path == '/services.html':
+            if canonical != [CANONICAL + '/denver-personal-trainer/']:
+                issues.append('Services redirect has the wrong canonical destination')
+            refresh = [a.get('content') for t, a in page.tags if t == 'meta' and a.get('http-equiv') == 'refresh']
+            if refresh != ['0; url=/denver-personal-trainer/']:
+                issues.append('Services is missing its instant redirect')
+            if any('noindex' in s for s in page.meta('robots')):
+                issues.append('Services redirect should remain crawlable for consolidation')
+            continue
         if canonical != [CANONICAL + path]: issues.append(f'{path}: wrong canonical {canonical}')
         if path in ('/404.html', '/print-review.html'):
             if not any('noindex' in s for s in page.meta('robots')): issues.append(f'{path}: missing intentional noindex')
@@ -113,6 +122,8 @@ def crawl():
             value = attrs.get('src') if tag in ('script', 'img') else attrs.get('href') if tag in ('a', 'link') else None
             if not value: continue
             link = urlparse(urljoin(CANONICAL + path, value))
+            if tag == 'a' and link.netloc == 'fromtheashes.fit' and link.path == '/services.html':
+                issues.append(f'{path}: link still points at retired Services page')
             if link.netloc != 'fromtheashes.fit' or link.scheme not in ('http', 'https'): continue
             target = disk_path(link.path)
             if not target.is_file(): issues.append(f'{path}: broken local target {value}')
@@ -138,7 +149,7 @@ def crawl():
     if issues:
         print('\n'.join(issues))
         raise SystemExit(1)
-    print(f'PASS: {len(sitemap)} indexable pages, 2 intentionally noindexed pages, {len(targets)} local HTTP targets; canonical URLs, metadata, schema, links, fragments and images verified.')
+    print(f'PASS: {len(sitemap)} indexable pages, 1 legacy redirect, 2 intentionally noindexed pages, {len(targets)} local HTTP targets; canonical URLs, metadata, schema, links, fragments and images verified.')
 
 
 if __name__ == '__main__':

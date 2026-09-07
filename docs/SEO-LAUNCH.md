@@ -2,11 +2,13 @@
 
 ## What's implemented
 
-The existing GitHub Pages site remains plain static HTML/CSS/JavaScript. Seven pages are intended for indexing: homepage, Denver guide, Services, Programs, About, Testimonials, and Contact. Each has a unique title and description, HTTPS non-www canonical, social metadata, and static JSON-LD. The new Denver guide is `/denver-personal-trainer/`.
+The existing GitHub Pages site remains plain static HTML/CSS/JavaScript. Six pages are intended for indexing: homepage, Personal Training, Programs, About Mia, Testimonials, and Contact. Each has a unique title and description, HTTPS non-www canonical, social metadata, and static JSON-LD. Personal Training is `/denver-personal-trainer/` and includes the session selector, group programs, session inclusions, mobile-training guide, and FAQs.
 
 The homepage establishes the service, city, trainer, certification, experience, and background in visible text. The business email is `mia@fromtheashes.fit`, confirmed by the owner on September 7, 2026. No public phone or street address has been supplied. Do not add either without confirmation.
 
-The review document and 404 page are intentionally `noindex, follow` and excluded from the sitemap. They remain crawlable so bots can read their directives. `/index.html` stays available for old links but canonicalizes to `/`. Existing `.html` routes are preserved. `robots.txt` permits public content and points to the sitemap. Jekyll excludes maintenance documents, scripts, tests, and internal artifacts through `_config.yml`.
+The review document and 404 page are intentionally `noindex, follow` and excluded from the sitemap. They remain crawlable so bots can read their directives. `/index.html` stays available for old links but canonicalizes to `/`. `/services.html` now redirects to `/denver-personal-trainer/`; all site links and Service schema point directly to the combined page, and the sitemap excludes the retired Services URL. Other `.html` routes are preserved. `robots.txt` permits public content and points to the sitemap. Jekyll excludes maintenance documents, scripts, tests, and internal artifacts through `_config.yml`.
+
+GitHub Pages serves the Services redirect as a small HTML page: an instant meta refresh with the destination canonical and a fallback link. JavaScript forwards campaign parameters and section bookmarks (`#personal`, `#partner`, `#group`) to preserved anchors on the new page. This is not an HTTP 301. Google treats zero-second meta refreshes as permanent-redirect signals when server-side redirects are unavailable; see [Google's redirect guidance](https://developers.google.com/search/docs/crawling-indexing/301-redirects). Keep this legacy entry point available for existing links.
 
 LocalBusiness, Person, and Service markup uses only supported facts. LocalBusiness has `areaServed: Denver, Colorado` without `address`, `geo`, ratings, reviews, or price fields. This is valid Schema.org modeling of a service-area business, but Google's LocalBusiness rich-result eligibility requires an address; do not fabricate one to satisfy that test. No FAQ rich-result eligibility is claimed.
 
@@ -84,6 +86,6 @@ node tests/browser-check.cjs
 git diff --check
 ```
 
-The browser check requires Playwright on Node's module search path and an installed Chrome; those are QA tools, not site dependencies. It checks all seven public pages at 320, 375, 768, and 1440 pixels, images, navigation with and without JavaScript, session selection, FAQs, attribution persistence, blocked storage, click hooks, and simulated success/failure/duplicate submission cases. Its screenshots/results are saved in a temporary directory printed when it finishes. The simple local HTTP server returns generic 404 responses; GitHub Pages uses the branded `404.html` for missing production paths.
+The browser check requires Playwright on Node's module search path and an installed Chrome; those are QA tools, not site dependencies. It checks all six public pages at 320, 375, 768, and 1440 pixels, images, navigation with and without JavaScript, the legacy redirect, session selection, FAQs, attribution persistence, blocked storage, click hooks, and simulated success/failure/duplicate submission cases. Its screenshots/results are saved in a temporary directory printed when it finishes. The simple local HTTP server returns generic 404 responses; GitHub Pages uses the branded `404.html` for missing production paths.
 
 Add future public pages to the sitemap and provide matching unique metadata and root-safe internal links. Keep entity IDs stable (`/#business` and `/#mia-johnson`). Reuse the same confirmed facts in visible content and JSON-LD. WebP files in `images/optimized/` are resized copies; original photographs are preserved.

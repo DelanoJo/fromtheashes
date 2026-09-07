@@ -91,7 +91,7 @@
               "name": "Colorado"
             }
           },
-          "url": "https://fromtheashes.fit/services.html"
+          "url": "https://fromtheashes.fit/denver-personal-trainer/"
         },
         {
           "@type": "Service",
@@ -109,7 +109,7 @@
               "name": "Colorado"
             }
           },
-          "url": "https://fromtheashes.fit/services.html"
+          "url": "https://fromtheashes.fit/denver-personal-trainer/"
         },
         {
           "@type": "Service",
@@ -127,7 +127,7 @@
               "name": "Colorado"
             }
           },
-          "url": "https://fromtheashes.fit/services.html"
+          "url": "https://fromtheashes.fit/denver-personal-trainer/"
         },
         {
           "@type": "Service",
@@ -194,10 +194,10 @@
             </button>
             <ul class="nav-menu">
                 <li><a href="/">Home</a></li>
+                <li><a href="/denver-personal-trainer/" class="active" aria-current="page">Personal Training</a></li>
                 <li><a href="/programs.html">Programs</a></li>
-                <li><a href="/services.html">Services</a></li>
                 <li><a href="/testimonials.html">Testimonials</a></li>
-                <li><a href="/about.html">About</a></li>
+                <li><a href="/about.html">About Mia</a></li>
                 <li><a href="/contact.html" class="cta-button">Book Consultation</a></li>
             </ul>
         </div>
@@ -219,14 +219,51 @@
                 <p>Finding time for yourself can be difficult when work, family, and a full calendar compete for your attention. In-home personal training makes it easier to put a workout into your day. You get a dedicated coach, a purposeful plan, and the privacy of a familiar setting, without the extra trip to the gym.</p>
                 <p>I'm Mia Johnson, the trainer behind From The Ashes Fitness. I travel to clients throughout the Denver area for individual, partner, and small-group sessions. Your training is personal: we start with how you move today and build toward the strength, mobility, and confidence you want for daily life.</p>
                 <nav class="page-contents" aria-label="On this page">
+                    <a href="#training-options">Session types</a>
                     <a href="#how-it-works">How it works</a>
-                    <a href="#training-options">Training options</a>
+                    <a href="#group">Group programs</a>
                     <a href="#service-area">Denver service area</a>
                     <a href="#consultation">Your consultation</a>
                     <a href="#questions">FAQs</a>
                 </nav>
             </div>
         </section>
+
+        <section class="content-section" id="training-options">
+        <div class="container">
+            <p class="eyebrow eyebrow-centered">Choose your format</p>
+            <h2 id="personal">Choose how you want to train</h2>
+            <p class="section-intro">Every session is tailored to your goals, fitness level, and any limitations or injuries. Explore individual, partner, or small-group coaching below.</p>
+
+            <div class="session-grid session-selector-grid" role="group" aria-label="Training session types">
+                <button class="session-card session-selector is-selected" type="button" data-session="individual" aria-controls="session-details" aria-pressed="true">
+                    <span class="session-heading">Individual Training</span>
+                    <span>One-on-one coaching designed around your goals, with focused instruction, form feedback, and a plan that progresses with you.</span>
+                </button>
+
+                <button class="session-card session-selector" id="partner" type="button" data-session="partner" aria-controls="session-details" aria-pressed="false">
+                    <span class="session-heading">Partner Training</span>
+                    <span>Train with a friend, spouse, or family member while receiving individualized guidance, shared accountability, and partner-focused workouts.</span>
+                </button>
+
+                <button class="session-card session-selector" type="button" data-session="group" aria-controls="session-details" aria-pressed="false">
+                    <span class="session-heading">Small Group Training</span>
+                    <span>Energetic, supportive training for 3–8 people, with scalable workouts that welcome a range of fitness levels.</span>
+                </button>
+            </div>
+
+            <div class="session-detail" id="session-details" aria-live="polite">
+                <p class="detail-kicker">Individual training</p>
+                <h3 data-session-title>Dedicated, one-on-one support</h3>
+                <p data-session-description>Build confidence with coaching that adapts to your goals, experience, and progress.</p>
+                <ul data-session-benefits>
+                    <li>Personalized programming</li>
+                    <li>Focused form feedback</li>
+                    <li>Clear next steps for your goals</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
         <section class="content-section" id="how-it-works">
             <div class="container reading-width">
@@ -241,18 +278,60 @@
             </div>
         </section>
 
-        <section class="content-section" id="training-options">
+<section id="included" class="content-section" style="background: var(--gray-light);">
+        <div class="container">
+            <h2>What's Included in Every Session</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <div class="feature">
+                    <h3>Personalized Programming</h3>
+                    <p>Every workout is tailored to your specific goals, fitness level, and any limitations or injuries.</p>
+                </div>
+                <div class="feature">
+                    <h3>Progress Tracking</h3>
+                    <p>Regular assessments and measurements to track your improvements and adjust your program.</p>
+                </div>
+                <div class="feature">
+                    <h3>Form Correction</h3>
+                    <p>Detailed instruction on proper technique to maximize results and prevent injury.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="content-section" id="group">
+        <div class="container">
+            <p class="eyebrow eyebrow-centered">Train together</p>
+            <h2>Group Training Programs</h2>
+            <p class="section-intro">Small-group sessions bring 3–8 people together for supportive, energizing workouts. Ask which of these programs fits your group.</p>
+            <div class="session-grid group-program-grid">
+                <article class="session-card">
+                    <h3>Women on Weights</h3>
+                    <p>Strength training designed for women of all fitness levels.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Squats for Tots</h3>
+                    <p>Family-friendly fitness sessions that get kids and parents moving together.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Mobility Workshop</h3>
+                    <p>Movement sessions focused on flexibility, range of motion, and injury prevention.</p>
+                </article>
+                <article class="session-card">
+                    <h3>Strength &amp; Conditioning Bootcamp</h3>
+                    <p>High-energy group sessions combining strength training and cardiovascular conditioning.</p>
+                </article>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="/contact.html" class="btn btn-primary">Ask About Training Sessions</a>
+            </div>
+        </div>
+    </section>
+
+        <section class="content-section">
             <div class="container reading-width">
-                <h2>Choose how you want to train</h2>
-                <h3>Private individual training</h3>
-                <p>One-on-one sessions give you my full attention. This format works well when you want a program shaped closely around your starting point, time, and preferences. We can slow down to practice a movement, work on a particular goal, or adjust a session to meet you where you are that day.</p>
-                <h3>Partner training</h3>
-                <p>Train with a spouse, friend, or family member and make movement part of the time you spend together. Each person receives guidance, and exercises can be adapted for different experience levels. Shared accountability can make it easier to keep showing up.</p>
-                <h3>Small-group training</h3>
-                <p>For groups of 3–8 people, sessions combine personal guidance with the encouragement of a community. Ask about the group format and programs that fit your interests. You can explore individual, partner, and group options on the <a href="/services.html">training sessions page</a>.</p>
-                <h3>Strength, mobility, and functional movement</h3>
+                <h2>Strength, mobility, and functional movement</h2>
                 <p>Strength training develops your ability to lift, carry, and handle everyday tasks. Mobility work focuses on how comfortably and confidently you move through a range of motion. Functional training brings these together through movement patterns such as squatting, hinging, pushing, pulling, and carrying.</p>
-                <p>The balance of these elements depends on your goals. Visit the <a href="/programs.html">programs page</a> for more about strength and mobility coaching and specialized training.</p>
+                <p>The balance of these elements depends on your goals. Explore the <a href="/programs.html">specialized programs</a> for more about prenatal and postnatal training, senior strength and mobility, and first responder fitness.</p>
             </div>
         </section>
 
@@ -337,9 +416,8 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="/denver-personal-trainer/">Denver Personal Training</a></li>
+                        <li><a href="/denver-personal-trainer/">Personal Training</a></li>
                         <li><a href="/about.html">About Mia</a></li>
-                        <li><a href="/services.html">Training Sessions</a></li>
                         <li><a href="/programs.html">Programs</a></li>
                         <li><a href="/contact.html">Contact</a></li>
                     </ul>

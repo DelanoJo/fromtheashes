@@ -1,5 +1,19 @@
 # SEO implementation and validation — September 7, 2026
 
+## Follow-up: navigation and training-page consolidation
+
+The Services content is now merged into `/denver-personal-trainer/`, the main **Personal Training** navigation destination. Navigation is Home, Personal Training, Programs, Testimonials, About Mia, and Book Consultation. About Mia remains a separate biography page.
+
+The combined page includes the session selector, all four group programs, session inclusions, mobile-training information, service-area guidance, and FAQs. Repeated descriptions were consolidated. Existing service links and structured-data URLs now point directly to this page; the sitemap lists six canonical indexable pages.
+
+`/services.html` is an instant HTML redirect with a destination canonical and a fallback link. JavaScript retains query parameters and section bookmarks, including the old `#personal`, `#partner`, and `#group` anchors. This is a static-hosting redirect, not a server-level HTTP 301.
+
+Follow-up checks: all six pages passed at 320, 375, 768, and 1440 pixels (24 viewport checks); the crawl checker passed six indexable pages, one redirect, and two noindexed utility pages. Navigation labels/active states, absence of links to the retired page, mobile menu, the moved session selector, group-program count, and a legacy campaign URL with `#partner` were checked in the browser. The form and attribution implementation is unchanged from the tests recorded below.
+
+Changed in this follow-up: `index.html`, `denver-personal-trainer/index.html`, `services.html`, `programs.html`, `about.html`, `testimonials.html`, `contact.html`, `404.html`, `css/styles.css`, `sitemap.xml`, `scripts/check-seo.py`, `tests/browser-check.cjs`, `README.md`, `docs/SEO-LAUNCH.md`, and this report.
+
+The sections below retain the original SEO release's audit and validation record.
+
 ## Result
 
 The original static GitHub Pages architecture and visual design are retained. Added one substantial Denver landing page; updated homepage messaging, metadata, internal links, confirmed business email, crawl controls, social metadata, and truthful structured data. Added attribution and conversion hooks without installing a marketing framework or inventing account IDs.

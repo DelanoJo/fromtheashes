@@ -12,7 +12,8 @@ Plain HTML, CSS, and JavaScript served by GitHub Pages from `main` at the reposi
 
 - `index.html`: homepage
 - `denver-personal-trainer/index.html`: in-home training in Denver
-- `services.html`, `programs.html`, `about.html`, `testimonials.html`, `contact.html`: core pages
+- `programs.html`, `about.html`, `testimonials.html`, `contact.html`: other core pages
+- `services.html`: legacy redirect to the combined personal training page, preserving campaign parameters and section bookmarks when JavaScript is available
 - `css/styles.css`: shared design and responsive layouts
 - `js/main.js`: navigation, session explorer, testimonials, and Formspree submission
 - `js/analytics.js`: session attribution and conversion/click hooks

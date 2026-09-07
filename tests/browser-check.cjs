@@ -7,7 +7,7 @@ const os = require('node:os');
 const path = require('node:path');
 const base = process.env.FTA_BASE_URL || 'http://127.0.0.1:4175';
 const artifacts = fs.mkdtempSync(path.join(os.tmpdir(), 'fta-seo-review-'));
-const routes = ['/', '/services.html', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/denver-personal-trainer/'];
+const routes = ['/', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/denver-personal-trainer/'];
 
 async function run() {
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -32,6 +32,8 @@ async function run() {
                 assert.ok(dimensions.scroll <= width + 1, `${route} overflows at ${width}px: ${dimensions.scroll}`);
                 assert.equal(await page.locator('h1').count(), 1);
                 assert.ok(await page.locator('h1').isVisible());
+                assert.deepEqual(await page.locator('.nav-menu a').allTextContents(), ['Home', 'Personal Training', 'Programs', 'Testimonials', 'About Mia', 'Book Consultation']);
+                assert.equal(await page.locator('.nav-menu a[aria-current="page"]').count(), 1);
                 await page.evaluate(async () => {
                     for (let y = 0; y < document.body.scrollHeight; y += 700) {
                         window.scrollTo(0, y);
@@ -56,7 +58,8 @@ async function run() {
         assert.ok(await page.getByRole('link', { name: 'Programs', exact: true }).first().isVisible());
         await page.keyboard.press('Escape');
         assert.equal(await page.locator('.nav-toggle').getAttribute('aria-expanded'), 'false');
-        await page.goto(base + '/services.html#partner');
+        await page.goto(base + '/services.html?utm_source=legacy&utm_campaign=training#partner');
+        await page.waitForURL(base + '/denver-personal-trainer/?utm_source=legacy&utm_campaign=training#partner');
         assert.equal(await page.locator('[data-session="partner"]').getAttribute('aria-pressed'), 'true');
         await page.locator('[data-session="group"]').click();
         assert.match(await page.locator('[data-session-title]').textContent(), /Big energy/);
@@ -67,7 +70,7 @@ async function run() {
         // Attribution survives navigation; unrelated/sensitive query fields never become form metadata.
         await page.goto(base + '/?utm_source=google&utm_medium=cpc&utm_campaign=denver_private&gclid=test-click&email=must-not-store@example.test');
         await page.getByRole('link', { name: 'Explore Session Types' }).click();
-        await page.getByRole('link', { name: 'Book Your Complimentary Consultation', exact: true }).click();
+        await page.locator('.page-header').getByRole('link', { name: 'Book a Complimentary Consultation', exact: true }).click();
         assert.equal(await page.locator('input[name="utm_campaign"]').inputValue(), 'denver_private');
         assert.equal(await page.locator('input[name="gclid"]').inputValue(), 'test-click');
         assert.equal(await page.locator('input[name="landing_page"]').inputValue(), '/');
@@ -144,6 +147,8 @@ async function run() {
             assert.ok(await plain.locator('h1').isVisible());
             assert.ok(await plain.locator('.nav-menu').isVisible(), 'Navigation remains available without JavaScript');
         }
+        await plain.goto(base + '/services.html');
+        await plain.waitForURL(base + '/denver-personal-trainer/');
         await noJS.close();
         for (const route of ['/404.html', '/print-review.html']) {
             await page.goto(base + route);
