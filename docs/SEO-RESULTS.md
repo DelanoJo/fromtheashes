@@ -6,7 +6,7 @@ The Google Analytics account/property and web stream `From The Ashes Fitness Web
 
 The active NextDNS profile `8787f5` now allows the three GA4 domains required by this setup: `analytics.google.com`, `www.googletagmanager.com`, and `www.google-analytics.com`. The Google tag installation test succeeded, the tag and collection endpoints returned normally, and the GA4 Home dashboard reported live active users. Google notes that full property processing can take up to 48 hours.
 
-The `generate_lead` event is sent only after Formspree confirms a successful consultation request. GA4's current Events screen can mark an event as a key event after it has been received; because no fake production inquiry was submitted, mark `generate_lead` with the star after the first real successful submission appears.
+The `generate_lead` event is sent only after Formspree confirms a successful consultation request. It is preconfigured in GA4 as a code-generated key event, counted once per event with no default monetary value. No fake production inquiry was submitted.
 
 The Google Business Profile is managed by Mia's Google account and is fully customized pending Google's verification. Added ten truthful custom services, the website, a 666-character business description, and the site's main portrait stripped of location metadata. Google currently shows public phone `(720) 336-9665`, weekday hours 6 AM–6 PM, weekends closed, and Denver plus nearby areas; these pre-existing fields were not changed in this workflow and should be confirmed by the owner.
 

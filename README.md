@@ -51,7 +51,7 @@ Do not publish private addresses, local tool settings, certification documents, 
 - [Pre-change SEO audit](docs/SEO-AUDIT.md)
 - [Search Console, Formspree, attribution, and analytics setup](docs/SEO-LAUNCH.md)
 
-The contact form uses the existing Formspree endpoint. Confirm its notification recipient inside Formspree; changing the website email does not change that backend setting. Google Analytics 4 is installed using measurement ID `G-MJFKPDR0WN`; the confirmed lead and click hooks send directly through the Google tag. No Google Ads conversion ID or label has been added.
+The contact form uses the existing Formspree endpoint. Confirm its notification recipient inside Formspree; changing the website email does not change that backend setting. Google Analytics 4 is installed using measurement ID `G-MJFKPDR0WN`; the confirmed lead and click hooks send directly through the Google tag. `generate_lead` is configured as a key event without a default monetary value. No Google Ads conversion ID or label has been added.
 
 ## Design
 
