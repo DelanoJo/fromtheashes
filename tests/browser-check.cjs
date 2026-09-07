@@ -248,6 +248,14 @@ async function run() {
         assert.ok(await acceptPage.locator('.cookie-consent').isVisible(), 'Clearing the choice defaults to denied');
         await acceptContext.close();
 
+        // Large-text accessibility: grid contents must not force horizontal scrolling.
+        await page.setViewportSize({ width: 320, height: 812 });
+        for (const route of routes) {
+            await page.goto(base + route);
+            await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+            assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Large text overflows on ${route}`);
+        }
+
         const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
         const plain = await noJS.newPage();
         for (const route of routes) {
