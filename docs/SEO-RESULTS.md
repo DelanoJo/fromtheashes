@@ -4,7 +4,9 @@
 
 The Google Analytics account/property and web stream `From The Ashes Fitness Website` were created under `mia.burkhardt@outlook.com`. The reporting time zone is Denver, currency is USD, industry is Beauty & Fitness, business size is 1–10 employees, and the selected objectives are lead generation and website traffic. Measurement ID `G-MJFKPDR0WN` is installed on the six canonical public pages. The existing `generate_lead`, consultation CTA, email, and phone click hooks now send through the direct Google tag.
 
-The active NextDNS profile `8787f5` now allows `analytics.google.com`, restoring safe access to the Analytics interface. Its actual tag and collection domains remain blocked until the owner separately approves `www.googletagmanager.com` and `www.google-analytics.com`; this protects the existing network-filtering scope.
+The active NextDNS profile `8787f5` now allows the three GA4 domains required by this setup: `analytics.google.com`, `www.googletagmanager.com`, and `www.google-analytics.com`. The Google tag installation test succeeded, the tag and collection endpoints returned normally, and the GA4 Home dashboard reported live active users. Google notes that full property processing can take up to 48 hours.
+
+The `generate_lead` event is sent only after Formspree confirms a successful consultation request. GA4's current Events screen can mark an event as a key event after it has been received; because no fake production inquiry was submitted, mark `generate_lead` with the star after the first real successful submission appears.
 
 The Google Business Profile is managed by Mia's Google account and is fully customized pending Google's verification. Added ten truthful custom services, the website, a 666-character business description, and the site's main portrait stripped of location metadata. Google currently shows public phone `(720) 336-9665`, weekday hours 6 AM–6 PM, weekends closed, and Denver plus nearby areas; these pre-existing fields were not changed in this workflow and should be confirmed by the owner.
 

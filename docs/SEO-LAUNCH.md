@@ -66,7 +66,7 @@ Google Analytics reporting is active. Supply these only if the advertising setup
 - **Google Tag Manager (optional):** a real `GTM-...` container ID only if the direct Google tag is intentionally replaced.
 - **Google Ads (for direct Ads conversions):** the real `AW-...` conversion ID **and the conversion label** for the confirmed consultation-lead action.
 
-Mark `generate_lead` as a GA4 key event after the first confirmed event appears. If Tag Manager is adopted later, replace the direct Google tag and configure equivalent Custom Event triggers; do not deploy both transports for the same events.
+Mark `generate_lead` as a GA4 key event after the first confirmed event appears: open **Admin → Events**, find `generate_lead` under Recent events, and select its star. No fake production inquiry was submitted just to populate this list. If Tag Manager is adopted later, replace the direct Google tag and configure equivalent Custom Event triggers; do not deploy both transports for the same events.
 
 For Ads: either import the GA4 lead key event into Ads or use the actual Ads ID/label on the `generate_lead` trigger. Choose one primary conversion path. Review account auto-tagging/Conversion Linker settings and the site's consent requirements before enabling production collection. Hidden click IDs in a Formspree inquiry alone do not upload conversions to Google Ads. Do not assign an invented lead value or treat generic `form_submit` auto-measurement as a confirmed lead.
 
