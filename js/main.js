@@ -1,5 +1,6 @@
 // Mobile Navigation Toggle
 document.addEventListener('DOMContentLoaded', function() {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
 
@@ -7,16 +8,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!navMenu.id) navMenu.id = 'primary-navigation';
         navToggle.setAttribute('aria-controls', navMenu.id);
         navToggle.setAttribute('aria-expanded', 'false');
+        const mobileNavigation = window.matchMedia('(max-width: 968px)');
 
         function setMenuState(isOpen) {
             navMenu.classList.toggle('active', isOpen);
             navToggle.setAttribute('aria-expanded', String(isOpen));
+            navMenu.inert = mobileNavigation.matches && !isOpen;
 
             const spans = navToggle.querySelectorAll('span');
             spans[0].style.transform = isOpen ? 'rotate(45deg) translateY(8px)' : 'none';
             spans[1].style.opacity = isOpen ? '0' : '1';
             spans[2].style.transform = isOpen ? 'rotate(-45deg) translateY(-8px)' : 'none';
         }
+
+        setMenuState(false);
+        mobileNavigation.addEventListener('change', () => setMenuState(false));
 
         navToggle.addEventListener('click', function() {
             setMenuState(!navMenu.classList.contains('active'));
@@ -49,14 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
+                e.preventDefault();
                 targetElement.scrollIntoView({
-                    behavior: 'smooth',
+                    behavior: reduceMotion ? 'auto' : 'smooth',
                     block: 'start'
                 });
+                if (this.classList.contains('skip-link')) targetElement.focus({ preventScroll: true });
             }
         });
     });
@@ -85,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.toggle('is-scrolled', currentScroll > 12);
         }
         backToTop.classList.toggle('is-visible', currentScroll > 500);
+        backToTop.tabIndex = currentScroll > 500 ? 0 : -1;
     }
 
     updateScrollUI();
@@ -92,14 +100,16 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', updateScrollUI);
 
     backToTop.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     });
 
     // Form validation and submission for contact form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
+        let submitting = false;
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            if (submitting || !contactForm.reportValidity()) return;
 
             // Get form values
             const name = document.getElementById('name').value.trim();
@@ -118,26 +128,30 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!message) errors.push('Please enter a message');
 
             // Check reCAPTCHA
-            if (typeof grecaptcha !== 'undefined') {
-                const recaptchaResponse = grecaptcha.getResponse();
-                if (!recaptchaResponse) {
+            if (contactForm.querySelector('.g-recaptcha')) {
+                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.getResponse !== 'function') {
+                    errors.push('The verification widget could not load. Please reload the page or email Mia using the address below.');
+                } else if (!grecaptcha.getResponse()) {
                     errors.push('Please complete the reCAPTCHA verification');
                 }
             }
 
             if (errors.length > 0) {
-                showFormMessage(errors.join('<br>'), 'error');
+                showFormMessage(errors.join('\n'), 'error');
                 return;
             }
 
             // Disable submit button while processing
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.textContent;
+            submitting = true;
+            contactForm.setAttribute('aria-busy', 'true');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
 
             try {
                 // Submit to Formspree
+                window.FTAAnalytics?.populateForm(contactForm);
                 const formData = new FormData(contactForm);
                 const response = await fetch(contactForm.action, {
                     method: 'POST',
@@ -148,24 +162,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (response.ok) {
-                    showFormMessage('Thank you for your inquiry! I will contact you within 24 hours to schedule your free consultation.', 'success');
+                    // Only Formspree's successful response counts as a lead.
+                    // No name, email, phone, goals, or selected health-related service
+                    // is sent to analytics. No event on clicks, validation errors, or failures.
+                    window.FTAAnalytics?.track('generate_lead', {
+                        form_id: 'contact-form',
+                        lead_type: 'complimentary_consultation'
+                    });
+                    showFormMessage('Thank you for your inquiry! I will contact you within 24 hours to schedule your complimentary consultation.', 'success');
                     contactForm.reset();
+                    window.FTAAnalytics?.populateForm(contactForm);
                     // Reset reCAPTCHA
                     if (typeof grecaptcha !== 'undefined') {
-                        grecaptcha.reset();
+                        try { grecaptcha.reset(); } catch (_) { /* Inquiry already accepted. */ }
                     }
                 } else {
-                    const data = await response.json();
-                    if (data.errors) {
-                        showFormMessage(data.errors.map(err => err.message).join('<br>'), 'error');
+                    const data = await response.json().catch(() => ({}));
+                    if (Array.isArray(data.errors) && data.errors.length) {
+                        showFormMessage(data.errors.map(err => String(err.message || 'Please check your form.')).join('\n'), 'error');
                     } else {
                         showFormMessage('There was a problem submitting your form. Please try again.', 'error');
                     }
                 }
             } catch (error) {
-                showFormMessage('There was a problem submitting your form. Please check your connection and try again.', 'error');
+                showFormMessage('We could not confirm receipt of your inquiry. Please check your connection or email Mia using the address below.', 'error');
             } finally {
                 // Re-enable submit button
+                submitting = false;
+                contactForm.removeAttribute('aria-busy');
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
             }
@@ -182,14 +206,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function showFormMessage(message, type) {
         const messageDiv = document.getElementById('form-message');
         if (messageDiv) {
-            messageDiv.innerHTML = message;
+            messageDiv.textContent = message;
             messageDiv.className = `form-message ${type}`;
             messageDiv.style.display = 'block';
 
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 5000);
+            messageDiv.focus({ preventScroll: true });
+            messageDiv.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
         }
     }
 
@@ -199,18 +221,19 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = !reduceMotion && 'IntersectionObserver' in window ? new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, observerOptions) : null;
 
     // Observe elements with animation classes
     const animatedElements = document.querySelectorAll('.service-card, .testimonial-card, .feature, .session-card');
     animatedElements.forEach(el => {
+        if (!observer) return;
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -270,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionSelectors.forEach(selector => {
             selector.addEventListener('click', () => selectSession(selector.dataset.session));
         });
+        if (window.location.hash === '#partner') selectSession('partner');
     }
 
     // Testimonial Carousel
@@ -280,8 +304,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const nextBtn = document.querySelector('.carousel-next');
         const dotsContainer = document.querySelector('.carousel-dots');
         let currentPanel = 0;
-        let autoRotate;
-        const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         panels.forEach((panel, index) => {
             panel.setAttribute('role', 'group');
@@ -296,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dot.setAttribute('aria-label', `Show testimonial group ${index + 1}`);
             dot.addEventListener('click', () => {
                 showPanel(index);
-                restartAutoRotate();
             });
             dotsContainer.append(dot);
             return dot;
@@ -322,38 +343,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        function stopAutoRotate() {
-            window.clearInterval(autoRotate);
-        }
-
-        function restartAutoRotate() {
-            stopAutoRotate();
-            if (!shouldReduceMotion) {
-                autoRotate = window.setInterval(() => showPanel(currentPanel + 1), 8500);
-            }
-        }
-
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 showPanel(currentPanel - 1);
-                restartAutoRotate();
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
                 showPanel(currentPanel + 1);
-                restartAutoRotate();
             });
         }
 
-        carousel.addEventListener('mouseenter', stopAutoRotate);
-        carousel.addEventListener('mouseleave', restartAutoRotate);
-        carousel.addEventListener('focusin', stopAutoRotate);
-        carousel.addEventListener('focusout', restartAutoRotate);
-
         showPanel(0);
-        restartAutoRotate();
     }
 });
 
@@ -370,6 +372,7 @@ style.textContent = `
         border-radius: 5px;
         margin-bottom: 1rem;
         display: none;
+        white-space: pre-line;
     }
 
     .form-message.success {

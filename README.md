@@ -1,190 +1,57 @@
-# From The Ashes Fitness Website
+# From The Ashes Fitness
 
-Professional fitness training website for Mia Johnson's personal training business.
+Production: https://fromtheashes.fit
 
-## Website Features
+Repository: https://github.com/DelanoJo/fromtheashes
 
-- Responsive design for all devices
-- Training session information
-- Client testimonials
-- Program descriptions
-- Contact form for consultation booking
-- Mobile-friendly navigation
-- SEO optimized
+Private, mobile personal training with Mia Johnson in Denver, Colorado. The verified business email is `mia@fromtheashes.fit`.
 
-## Deployment Instructions
+## Architecture
 
-### Step 1: Create GitHub Repository
+Plain HTML, CSS, and JavaScript served by GitHub Pages from `main` at the repository root. No framework build, package install, or client-side router is required. Existing page URLs are retained; `denver-personal-trainer/index.html` serves the clean Denver guide route.
 
-1. Go to [GitHub](https://github.com) and sign in
-2. Click "New" to create a new repository
-3. Name it `fromtheashes-site` (or your preferred name)
-4. Make sure it's set to **Public**
-5. Don't initialize with README (we already have one)
-6. Click "Create repository"
+- `index.html`: homepage
+- `denver-personal-trainer/index.html`: in-home training in Denver
+- `services.html`, `programs.html`, `about.html`, `testimonials.html`, `contact.html`: core pages
+- `css/styles.css`: shared design and responsive layouts
+- `js/main.js`: navigation, session explorer, testimonials, and Formspree submission
+- `js/analytics.js`: session attribution and conversion/click hooks
+- `images/optimized/`: smaller WebP copies of the existing photos
+- `robots.txt`, `sitemap.xml`: crawl controls and canonical page inventory
+- `404.html`: branded error page; GitHub Pages preserves HTTP 404 status
+- `print-review.html`: internal review document, intentionally noindexed
+- `_config.yml`: excludes maintenance material from GitHub Pages output
 
-### Step 2: Push Code to GitHub
+## Check locally
 
-Run these commands in your terminal from the project directory:
-
-```bash
-cd fromtheashes-site
-git init
-git add .
-git commit -m "Initial commit - From The Ashes Fitness website"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/fromtheashes-site.git
-git push -u origin main
+```sh
+python3 -m http.server 4175 --bind 127.0.0.1
 ```
 
-Replace `YOUR_USERNAME` with your GitHub username.
+In another terminal:
 
-### Step 3: Enable GitHub Pages
-
-1. Go to your repository on GitHub
-2. Click on "Settings" tab
-3. Scroll down to "Pages" section in the left sidebar
-4. Under "Source", select "Deploy from a branch"
-5. Choose "main" branch and "/ (root)" folder
-6. Click "Save"
-
-### Step 4: Configure Custom Domain (fromtheashes.fit)
-
-#### On GitHub:
-1. In the same Pages settings, under "Custom domain"
-2. Enter `fromtheashes.fit`
-3. Click "Save"
-4. Check "Enforce HTTPS" (may take a few minutes to be available)
-
-#### On Namecheap:
-1. Log into your Namecheap account
-2. Go to Domain List and click "Manage" next to fromtheashes.fit
-3. Go to "Advanced DNS" tab
-4. Add these DNS records:
-
-**For apex domain (fromtheashes.fit):**
-- Type: A Record
-- Host: @
-- Value: 185.199.108.153
-- TTL: Automatic
-
-- Type: A Record
-- Host: @
-- Value: 185.199.109.153
-- TTL: Automatic
-
-- Type: A Record
-- Host: @
-- Value: 185.199.110.153
-- TTL: Automatic
-
-- Type: A Record
-- Host: @
-- Value: 185.199.111.153
-- TTL: Automatic
-
-**For www subdomain (www.fromtheashes.fit):**
-- Type: CNAME Record
-- Host: www
-- Value: YOUR_USERNAME.github.io
-- TTL: Automatic
-
-Replace `YOUR_USERNAME` with your GitHub username.
-
-5. Remove any conflicting records (like default parking page records)
-6. Save all changes
-
-### Step 5: Wait for Propagation
-
-- DNS changes can take up to 48 hours to propagate (usually much faster)
-- Your site should be accessible at:
-  - https://fromtheashes.fit
-  - https://www.fromtheashes.fit
-  - https://YOUR_USERNAME.github.io/fromtheashes-site
-
-## Important Setup Tasks
-
-### 1. Set Up Form Handling
-
-The contact form needs a backend service. Sign up for [Formspree](https://formspree.io):
-
-1. Create a free account at formspree.io
-2. Create a new form
-3. Get your form endpoint (looks like: https://formspree.io/f/YOUR_FORM_ID)
-4. Update the form action in `contact.html` line 103:
-   ```html
-   <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-   ```
-
-### 2. Update Email Address
-
-Replace placeholder email addresses with your actual email:
-- Update `mia@fromtheashes.fit` throughout all HTML files
-
-### 3. Analytics (Optional)
-
-To track visitor statistics, add Google Analytics:
-
-1. Sign up for [Google Analytics](https://analytics.google.com)
-2. Create a new property for fromtheashes.fit
-3. Get your tracking code
-4. Add it to the `<head>` section of all HTML files
-
-## File Structure
-
-```
-fromtheashes-site/
-├── index.html          # Homepage
-├── about.html          # About Mia page
-├── services.html       # Training session types
-├── programs.html       # Program descriptions
-├── testimonials.html   # Client testimonials
-├── contact.html        # Contact form & booking
-├── CNAME              # Custom domain file
-├── README.md          # This file
-├── css/
-│   └── styles.css     # All styling
-├── js/
-│   └── main.js        # JavaScript functionality
-└── images/            # All website images
+```sh
+python3 scripts/check-seo.py http://127.0.0.1:4175
+node --check js/main.js
+node --check js/analytics.js
+git diff --check
 ```
 
-## Maintenance
+`node tests/browser-check.cjs` additionally checks mobile/desktop layouts and form/attribution behavior. It requires Playwright available to Node and an installed Chrome. These are development-only tools. All test form requests are intercepted.
 
-### Updating Content
+## Publish and maintain
 
-1. Edit the HTML files directly
-2. Commit and push changes to GitHub:
-   ```bash
-   git add .
-   git commit -m "Update description"
-   git push
-   ```
-3. Changes will be live within minutes
+Commit the intended site files and push to `origin/main`; monitor the GitHub Pages build before declaring the changes live. Keep `CNAME` set to `fromtheashes.fit`. Use HTTPS and the non-www domain consistently. New indexable pages need unique metadata, an HTML link from an existing page, and a sitemap entry.
 
-### Adding Blog Posts
+Do not publish private addresses, local tool settings, certification documents, or unrelated files. The original photos remain unchanged; use the optimized copies in public page markup.
 
-Consider using Jekyll (GitHub Pages' built-in static site generator) if you want to add a blog section in the future.
+## Search and measurement
 
-## Browser Support
+- [Pre-change SEO audit](docs/SEO-AUDIT.md)
+- [Search Console, Formspree, attribution, and analytics setup](docs/SEO-LAUNCH.md)
 
-The website supports:
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers
+The contact form uses the existing Formspree endpoint. Confirm its notification recipient inside Formspree; changing the website email does not change that backend setting. No Google Analytics or Ads identifiers have been invented or enabled. See the launch guide for exactly which values are needed and how to connect the existing tracking hooks.
 
-## Credits
+## Design
 
-- Design and Development: Custom built for From The Ashes Fitness
-- Icons: Emoji icons used for simplicity
-- Fonts: Google Fonts (Montserrat, Open Sans)
-
-## Contact
-
-For website issues or updates, please contact the developer.
-
-## License
-
-© 2024 From The Ashes Fitness. All rights reserved.
+Existing Montserrat / Open Sans typography, colors, photography, and layout are retained. Updates support accessible mobile navigation, reduced motion, and readable form feedback.

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Keep print-review.html crawlable so search engines can read its noindex tag.
+Sitemap: https://fromtheashes.fit/sitemap.xml
