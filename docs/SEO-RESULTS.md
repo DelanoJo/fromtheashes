@@ -1,5 +1,15 @@
 # SEO implementation and validation — September 7, 2026
 
+## Follow-up: Google Analytics and Business Profile
+
+The Google Analytics account/property and web stream `From The Ashes Fitness Website` were created under `mia.burkhardt@outlook.com`. The reporting time zone is Denver, currency is USD, industry is Beauty & Fitness, business size is 1–10 employees, and the selected objectives are lead generation and website traffic. Measurement ID `G-MJFKPDR0WN` is installed on the six canonical public pages. The existing `generate_lead`, consultation CTA, email, and phone click hooks now send through the direct Google tag.
+
+The active NextDNS profile `8787f5` now allows `analytics.google.com`, restoring safe access to the Analytics interface. Its actual tag and collection domains remain blocked until the owner separately approves `www.googletagmanager.com` and `www.google-analytics.com`; this protects the existing network-filtering scope.
+
+The Google Business Profile is managed by Mia's Google account and is fully customized pending Google's verification. Added ten truthful custom services, the website, a 666-character business description, and the site's main portrait stripped of location metadata. Google currently shows public phone `(720) 336-9665`, weekday hours 6 AM–6 PM, weekends closed, and Denver plus nearby areas; these pre-existing fields were not changed in this workflow and should be confirmed by the owner.
+
+GA4 installation files changed in this follow-up: `index.html`, `denver-personal-trainer/index.html`, `programs.html`, `testimonials.html`, `about.html`, `contact.html`, `js/analytics.js`, `tests/browser-check.cjs`, `README.md`, `docs/SEO-LAUNCH.md`, and this report.
+
 ## Follow-up: navigation and training-page consolidation
 
 The Services content is now merged into `/denver-personal-trainer/`, the main **Personal Training** navigation destination. Navigation is Home, Personal Training, Programs, Testimonials, About Mia, and Book Consultation. About Mia remains a separate biography page.

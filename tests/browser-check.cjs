@@ -17,6 +17,10 @@ async function run() {
             contentType: 'application/javascript',
             body: 'window.grecaptcha={getResponse:()=>"test-only-token",reset:()=>{}};'
         }));
+        await context.route('https://www.googletagmanager.com/gtag/js*', route => route.fulfill({
+            contentType: 'application/javascript',
+            body: '/* Test fixture: the inline gtag queue is sufficient for event assertions. */'
+        }));
         await context.route('https://formspree.io/**', route => route.abort());
         const page = await context.newPage();
         const errors = [];
@@ -88,7 +92,10 @@ async function run() {
             await route.fulfill({ status: mode === 'failure' ? 422 : 200, contentType: 'application/json',
                 body: mode === 'failure' ? JSON.stringify({ errors: [{ message: '<img src=x onerror=alert(1)> Test rejection' }] }) : '{"ok":true}' });
         });
-        const leads = () => page.evaluate(() => (window.dataLayer || []).filter(e => e.event === 'generate_lead'));
+        const tracked = eventName => page.evaluate(name => (window.dataLayer || []).filter(item =>
+            item?.event === name || (item?.[0] === 'event' && item?.[1] === name)
+        ).map(item => item?.event ? item : { event: item[1], ...item[2] }), eventName);
+        const leads = () => tracked('generate_lead');
         await page.getByRole('button', { name: 'Request Complimentary Consultation' }).click();
         assert.equal(sends, 0, 'Native validation must prevent requests');
         await page.locator('#name').fill('Test Only');
@@ -112,7 +119,9 @@ async function run() {
         while (!release) await new Promise(resolve => setTimeout(resolve, 10));
         assert.equal(sends, 3, 'In-flight double submission is blocked');
         release();
-        await page.waitForFunction(() => (window.dataLayer || []).some(e => e.event === 'generate_lead'));
+        await page.waitForFunction(() => (window.dataLayer || []).some(item =>
+            item?.event === 'generate_lead' || (item?.[0] === 'event' && item?.[1] === 'generate_lead')
+        ));
         assert.equal((await leads()).length, 1);
         const lead = (await leads())[0];
         assert.deepEqual(Object.keys(lead).sort(), ['event', 'form_id', 'lead_type', 'page_path']);
@@ -126,7 +135,7 @@ async function run() {
             document.body.append(phone); phone.click(); phone.remove();
             document.querySelector('a[href="#contact-form"]').click();
         });
-        const events = await page.evaluate(() => window.dataLayer.map(e => e.event));
+        const events = await page.evaluate(() => window.dataLayer.map(item => item?.event || (item?.[0] === 'event' ? item[1] : undefined)));
         for (const event of ['email_click', 'phone_click', 'consultation_cta_click']) assert.ok(events.includes(event));
 
         // A new campaign starts a clean attribution set, without mixing old click IDs.

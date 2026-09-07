@@ -65,12 +65,15 @@
         for (const key of ['form_id', 'lead_type', 'cta_location']) {
             if (details[key]) event[key] = clean(details[key]);
         }
-        // Plain dataLayer objects are suitable for GTM Custom Event triggers.
-        // The DOM event is an alternative bridge for a future direct GA4 setup.
-        // Use ONE transport when configuring tags to prevent duplicate conversions.
+        const parameters = { ...event };
+        delete parameters.event;
         try {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push(event);
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', name, parameters);
+            } else {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(event);
+            }
             window.dispatchEvent(new CustomEvent('fta:analytics', { detail: event }));
         } catch (_) { /* A tag integration must never break a successful inquiry. */ }
     }

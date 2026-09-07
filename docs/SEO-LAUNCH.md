@@ -50,7 +50,7 @@ Attribution survives same-tab navigation and refreshes. Direct/internal page vis
 
 ## Tracking hooks and identifiers needed
 
-No GA4, GTM, Google Ads tag, or analytics cookie has been installed. Events are ready in `window.dataLayer` and as `fta:analytics` CustomEvents for an integration chosen by the owner. Without that integration they are local hooks, not Google reporting. Choose **one** transport to prevent duplicate events.
+Google Analytics 4 is installed using web stream `From The Ashes Fitness Website` and measurement ID `G-MJFKPDR0WN`. Events send through the direct Google tag and remain available as `fta:analytics` CustomEvents for local integrations. Do not add a duplicate GTM forwarding rule for the same events. The GA4 account and property use Denver Time, US dollars, Beauty & Fitness, 1–10 employees, and the lead-generation and website-traffic objectives.
 
 | Event | Trigger | Non-personal payload |
 | --- | --- | --- |
@@ -61,13 +61,12 @@ No GA4, GTM, Google Ads tag, or analytics cookie has been installed. Events are 
 
 There is no public telephone link because no real business phone was supplied. The hook will work when one is added. Clicks are not leads or completed calls. The form submit button itself does not trigger a conversion. Names, emails, telephone numbers, message text, health information, and the selected service are not included in these event payloads.
 
-Supply whichever identifiers match the intended setup:
+Google Analytics reporting is active. Supply these only if the advertising setup later requires them:
 
-- **GA4 Measurement ID:** the real `G-...` ID for this website's web stream.
-- **Google Tag Manager (optional):** the real `GTM-...` container ID if GTM will manage tags.
+- **Google Tag Manager (optional):** a real `GTM-...` container ID only if the direct Google tag is intentionally replaced.
 - **Google Ads (for direct Ads conversions):** the real `AW-...` conversion ID **and the conversion label** for the confirmed consultation-lead action.
 
-For GTM: create Custom Event triggers using the exact event names above; forward them to GA4 using a Google tag configured with the supplied Measurement ID. Mark `generate_lead` as a GA4 key event. If using direct GA4 instead, load the real Google tag once and bridge `fta:analytics` to `gtag('event', eventName, parameters)`; do not also deploy the GTM event mapping.
+Mark `generate_lead` as a GA4 key event after the first confirmed event appears. If Tag Manager is adopted later, replace the direct Google tag and configure equivalent Custom Event triggers; do not deploy both transports for the same events.
 
 For Ads: either import the GA4 lead key event into Ads or use the actual Ads ID/label on the `generate_lead` trigger. Choose one primary conversion path. Review account auto-tagging/Conversion Linker settings and the site's consent requirements before enabling production collection. Hidden click IDs in a Formspree inquiry alone do not upload conversions to Google Ads. Do not assign an invented lead value or treat generic `form_submit` auto-measurement as a confirmed lead.
 
