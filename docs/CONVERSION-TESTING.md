@@ -2,7 +2,8 @@
 
 ## Current measurement
 
-GA4 web stream: **From The Ashes Fitness Website**  
+GA4 web stream: **From The Ashes Fitness Website**
+
 Measurement ID: **G-MJFKPDR0WN**
 
 | Event | Trigger | GA4 key event | Intended Ads role |
