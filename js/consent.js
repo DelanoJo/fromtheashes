@@ -6,13 +6,23 @@
     const analyticsId = 'G-MJFKPDR0WN';
     let choice = null;
     let tagLoaded = false;
+    let storageAvailable = true;
 
-    try {
-        const stored = localStorage.getItem(preferenceKey);
-        if (stored === 'granted' || stored === 'denied') choice = stored;
-    } catch (_) { /* The banner remains usable when storage is unavailable. */ }
+    function readChoice() {
+        if (!storageAvailable) return choice;
+        try {
+            const stored = localStorage.getItem(preferenceKey);
+            return stored === 'granted' || stored === 'denied' ? stored : null;
+        } catch (_) { return choice; }
+    }
+
+    choice = readChoice();
+    window[`ga-disable-${analyticsId}`] = choice !== 'granted';
 
     function hasAnalyticsConsent() {
+        // Re-check before each custom event, even if the storage event from a
+        // different tab has not been delivered yet (or this page was suspended).
+        syncChoice();
         return choice === 'granted';
     }
 
@@ -44,26 +54,47 @@
 
     function clearAnalyticsCookies() {
         const names = document.cookie.split(';').map(part => part.split('=')[0].trim())
-            .filter(name => name === '_ga' || name.startsWith('_ga_'));
+            .filter(name => name === '_ga' || name.startsWith('_ga_') || name.startsWith('_gcl_'));
         for (const name of names) {
             document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
             document.cookie = `${name}=; Max-Age=0; Path=/; Domain=.fromtheashes.fit; SameSite=Lax`;
         }
     }
 
-    function setChoice(nextChoice) {
+    function applyChoice(nextChoice) {
         choice = nextChoice;
-        try { localStorage.setItem(preferenceKey, choice); } catch (_) { /* Keep in-memory choice. */ }
-
         const granted = choice === 'granted';
+        // Consent Mode alone can allow cookieless pings after withdrawal.
+        // Google's opt-out flag also stops the already-loaded tag's automatic
+        // measurement. Set it BEFORE updating consent or deleting cookies.
+        window[`ga-disable-${analyticsId}`] = !granted;
         window.gtag('consent', 'update', consentState(granted));
         if (granted) loadGoogleTag();
         else clearAnalyticsCookies();
 
         const banner = document.querySelector('.cookie-consent');
-        if (banner) banner.hidden = true;
+        if (banner) banner.hidden = choice !== null;
         window.dispatchEvent(new CustomEvent('fta:consent-changed', { detail: { choice } }));
     }
+
+    function setChoice(nextChoice) {
+        if (nextChoice !== 'granted' && nextChoice !== 'denied') return;
+        try { localStorage.setItem(preferenceKey, nextChoice); }
+        catch (_) { storageAvailable = false; /* Keep this page usable without storage. */ }
+        applyChoice(nextChoice);
+    }
+
+    function syncChoice() {
+        const current = readChoice();
+        if (current !== choice) applyChoice(current);
+    }
+
+    window.addEventListener('storage', function (event) {
+        if (event.key === preferenceKey || event.key === null) syncChoice();
+    });
+    window.addEventListener('pageshow', syncChoice);
+    window.addEventListener('focus', syncChoice);
+    document.addEventListener('visibilitychange', syncChoice);
 
     function showPreferences() {
         const banner = document.querySelector('.cookie-consent');
@@ -78,7 +109,7 @@
     if (choice === 'granted') {
         window.gtag('consent', 'update', consentState(true));
         loadGoogleTag();
-    }
+    } else clearAnalyticsCookies();
 
     document.addEventListener('DOMContentLoaded', function () {
         const banner = document.createElement('section');
@@ -87,7 +118,7 @@
         banner.innerHTML = `
             <div class="cookie-consent__content">
                 <h2 class="cookie-consent__title" tabindex="-1">Your privacy choices</h2>
-                <p>With your permission, we use Google Analytics and advertising measurement cookies to understand site use, remember campaign sources, and measure consultation requests. We never send your form answers to Analytics. <a href="/privacy.html">Privacy details</a></p>
+                <p>Allow cookies to measure site use, ad campaigns, and consultation requests? Form answers are never sent to Analytics. Your choice won't affect booking. <a href="/privacy.html">Privacy details</a></p>
             </div>
             <div class="cookie-consent__actions">
                 <button type="button" class="btn btn-secondary" data-consent="denied">Decline optional tracking</button>

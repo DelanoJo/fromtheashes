@@ -182,6 +182,10 @@ async function run() {
 
         // Consent loads GA4 once and enables invisible, session-scoped attribution.
         const acceptContext = await browser.newContext({ viewport: { width: 375, height: 812 } });
+        await acceptContext.route('https://www.google.com/recaptcha/api.js', route => route.fulfill({
+            contentType: 'application/javascript',
+            body: 'window.grecaptcha={getResponse:()=>"test-only-token",reset:()=>{}};'
+        }));
         let acceptedTagLoads = 0;
         await acceptContext.route('https://www.googletagmanager.com/gtag/js*', route => {
             acceptedTagLoads += 1;
@@ -201,6 +205,47 @@ async function run() {
         ).length)), 0, 'Ordinary page load is not a conversion');
         await acceptPage.goto(base + '/contact.html');
         assert.equal(await acceptPage.locator('input[name="utm_campaign"]').inputValue(), 'consent-test');
+
+        // Withdrawal is immediate in this tab AND every other open same-origin tab.
+        const secondTab = await acceptContext.newPage();
+        await secondTab.goto(base + '/contact.html?utm_source=google&utm_campaign=second-tab');
+        await secondTab.evaluate(() => { document.cookie = '_ga_test=fixture; Path=/'; });
+        await acceptPage.getByText('Cookie preferences', { exact: true }).click();
+        await acceptPage.getByRole('button', { name: 'Decline optional tracking' }).click();
+        for (const tab of [acceptPage, secondTab]) {
+            await tab.waitForFunction(() => window['ga-disable-G-MJFKPDR0WN'] === true);
+            assert.equal(await tab.evaluate(() => window.FTAConsent.hasAnalyticsConsent()), false);
+            assert.equal(await tab.evaluate(() => sessionStorage.getItem('fta_campaign_session_v1')), null);
+            assert.equal(await tab.locator('[data-fta-attribution]').count(), 0);
+            assert.ok(!(await tab.evaluate(() => document.cookie)).includes('_ga'));
+            const countEvents = () => tab.evaluate(() => window.dataLayer.filter(item => item[0] === 'event').length);
+            const before = await countEvents();
+            await tab.evaluate(() => window.FTAAnalytics.track('consultation_cta'));
+            assert.equal(await countEvents(), before, 'No events may be queued after withdrawal');
+            const state = await tab.evaluate(() => [...window.dataLayer].reverse().find(item => item[0] === 'consent')[2]);
+            assert.equal(state.analytics_storage, 'denied');
+            assert.equal(state.ad_storage, 'denied');
+        }
+        const loadsBeforeReaccept = acceptedTagLoads;
+        await secondTab.route('https://formspree.io/f/xdkqarwv', route => route.fulfill({
+            status: 200, contentType: 'application/json', body: '{"ok":true}'
+        }));
+        await secondTab.locator('#name').fill('Internal QA');
+        await secondTab.locator('#email').fill('qa@example.test');
+        await secondTab.locator('#phone').fill('5550000000');
+        await secondTab.locator('#service').selectOption('medical-support');
+        await secondTab.locator('#message').fill('Internal QA — intercepted, never sent.');
+        await secondTab.getByRole('button', { name: 'Request Complimentary Consultation' }).click();
+        await secondTab.waitForFunction(() => document.querySelector('#form-message').classList.contains('success'));
+        assert.equal(await secondTab.evaluate(() => window.dataLayer.filter(item => item[0] === 'event' && item[1] === 'generate_lead').length), 0,
+            'A successful form after cross-tab withdrawal remains functional but untracked');
+        await secondTab.getByText('Cookie preferences', { exact: true }).click();
+        await secondTab.getByRole('button', { name: 'Accept optional tracking' }).click();
+        await acceptPage.waitForFunction(() => window['ga-disable-G-MJFKPDR0WN'] === false);
+        assert.equal(acceptedTagLoads, loadsBeforeReaccept, 'Reaccepting does not load another tag');
+        await secondTab.evaluate(() => localStorage.removeItem('fta_cookie_consent_v1'));
+        await acceptPage.waitForFunction(() => window['ga-disable-G-MJFKPDR0WN'] === true);
+        assert.ok(await acceptPage.locator('.cookie-consent').isVisible(), 'Clearing the choice defaults to denied');
         await acceptContext.close();
 
         const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });

@@ -12,7 +12,7 @@
             ad_personalization: 'denied'
         });
     </script>
-    <script src="/js/consent.js"></script>
+    <script src="/js/consent.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Denver Training Consultation | From The Ashes Fitness</title>
@@ -34,9 +34,8 @@
     <meta name="twitter:image:alt" content="Mia Johnson, personal trainer at From The Ashes Fitness">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -262,11 +261,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>From The Ashes Fitness</h4>
+                    <h2>From The Ashes Fitness</h2>
                     <p>Private, mobile personal training with Mia Johnson in Denver, Colorado. Individual, partner, and small-group sessions.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
+                    <h2>Quick Links</h2>
                     <ul>
                         <li><a href="/denver-personal-trainer/">Personal Training</a></li>
                         <li><a href="about.html">About Mia</a></li>
@@ -276,7 +275,7 @@
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Connect With Me</h4>
+                    <h2>Connect With Me</h2>
                     <div class="social-links">
                         <a href="https://www.instagram.com/camilla_adelita" target="_blank" rel="noopener" aria-label="Instagram"><img src="images/instagram-icon.svg" alt="Instagram" style="width: 24px; height: 24px;" width="24" height="24" decoding="async"></a>
                         <a href="https://www.facebook.com/share/1CCCYpkAad/" target="_blank" rel="noopener" aria-label="Facebook"><img src="images/facebook.svg" alt="Facebook" style="width: 24px; height: 24px;" width="24" height="24" decoding="async"></a>
@@ -291,8 +290,8 @@
         </div>
     </footer>
 
-    <script src="js/analytics.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/analytics.js" defer></script>
+    <script src="js/main.js" defer></script>
     <!-- Google reCAPTCHA script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>

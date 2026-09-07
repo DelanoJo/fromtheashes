@@ -27,6 +27,24 @@ Use a private/incognito Chrome window so an old consent choice does not affect t
 6. Reload the original campaign URL after accepting. Navigate to Personal Training and then Contact. In DevTools → Elements, search for `utm_campaign`; the hidden input should contain `conversion-check`. Search for `gclid`; it should contain `test-click-id`. These fields are invisible in the page and should arrive with an accepted Formspree inquiry.
 7. A normal page load may produce `page_view`, session, and enhanced-measurement events. It must not produce `generate_lead`, `click_phone`, `click_email`, or `consultation_cta` until the matching action occurs.
 
+### Withdrawal and multiple tabs
+
+1. After accepting, open Contact in a second tab in the same browser.
+2. In the first tab, open **Cookie preferences** and choose **Decline optional tracking**.
+3. Both tabs must return `false` for `FTAConsent.hasAnalyticsConsent()` and `true` for `window['ga-disable-G-MJFKPDR0WN']`. Session attribution and hidden campaign inputs must be gone in both tabs.
+4. New phone/email/CTA actions must not produce custom events. A successful form still works but must not produce `generate_lead`. Reloading must not load Google's tag.
+5. Accepting again restores measurement without loading duplicate tags or replaying custom events attempted while declined.
+
+Google may finish sending events already collected before withdrawal. When checking Network, let existing page-view/scroll batches finish before clearing the log and testing new actions. Withdrawal cannot erase data already collected.
+
+`tests/consent-network-check.cjs` uses the actual Google tag in debug mode to test same-tab and cross-tab withdrawal, automatic measurement, cookie removal, and denied reload. It never submits a form or fires `generate_lead`:
+
+```sh
+NODE_PATH=/Users/delanojohnson/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules node tests/consent-network-check.cjs
+```
+
+Set `FTA_BASE_URL=https://fromtheashes.fit` to run against production. Unlike the main suite, this sends deliberate debug page-view/scroll traffic to GA4 while consent is granted.
+
 ## Browser test: secondary events
 
 Keep DevTools Network open with Preserve log enabled and optional tracking accepted. Filter GA4 collection requests by the event-name query parameter (`en`). You can also keep GA4 **Reports → Realtime** open in another tab; events can take a short time to appear.
