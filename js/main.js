@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!navMenu.id) navMenu.id = 'primary-navigation';
         navToggle.setAttribute('aria-controls', navMenu.id);
         navToggle.setAttribute('aria-expanded', 'false');
-        const mobileNavigation = window.matchMedia('(max-width: 968px)');
+        const mobileNavigation = window.matchMedia('(max-width: 1060px)');
 
         function setMenuState(isOpen) {
             navMenu.classList.toggle('active', isOpen);

@@ -39,6 +39,11 @@ async function run() {
                 assert.ok(dimensions.scroll <= width + 1, `${route} overflows at ${width}px: ${dimensions.scroll}`);
                 assert.equal(await page.locator('h1').count(), 1);
                 assert.ok(await page.locator('h1').isVisible());
+                const homeLink = page.getByRole('link', { name: 'From The Ashes Fitness home', exact: true });
+                assert.equal(await homeLink.count(), 1, 'The brand link has one clear accessible name');
+                assert.equal(await homeLink.getAttribute('href'), '/');
+                assert.equal(await homeLink.getByRole('img').count(), 0, 'The logo does not repeat the link announcement');
+                assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
                 assert.deepEqual(await page.locator('.nav-menu a').allTextContents(), ['Home', 'Personal Training', 'Programs', 'Testimonials', 'About Mia', 'Book Consultation']);
                 assert.equal(await page.locator('.nav-menu a[aria-current="page"]').count(), route === '/privacy.html' ? 0 : 1);
                 await page.evaluate(async () => {
@@ -56,6 +61,23 @@ async function run() {
                 results.push({ route, width, horizontalOverflow: false });
             }
         }
+
+        // The wider wordmark must fit at both sides of the navigation breakpoint.
+        for (const width of [969, 1024, 1060, 1061, 1280]) {
+            await page.setViewportSize({ width, height: 900 });
+            await page.goto(base + '/');
+            await page.evaluate(() => document.fonts.ready);
+            const home = await page.locator('.nav-brand').boundingBox();
+            const menu = width <= 1060 ? page.locator('.nav-toggle') : page.locator('.nav-menu');
+            const menuBox = await menu.boundingBox();
+            assert.ok(home.x + home.width <= menuBox.x, `Header controls overlap at ${width}px`);
+            assert.equal(await page.locator('.nav-menu').evaluate(el => el.inert), width <= 1060);
+        }
+        await page.goto(base + '/');
+        await page.keyboard.press('Tab');
+        await page.keyboard.press('Tab');
+        assert.equal(await page.locator(':focus').getAttribute('aria-label'), 'From The Ashes Fitness home');
+        assert.notEqual(await page.locator(':focus').evaluate(el => getComputedStyle(el).outlineStyle), 'none');
 
         await page.setViewportSize({ width: 375, height: 812 });
         await page.goto(base + '/');

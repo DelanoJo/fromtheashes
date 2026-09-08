@@ -59,3 +59,7 @@ The contact form uses the existing Formspree endpoint. Confirm its notification 
 ## Design
 
 Existing Montserrat / Open Sans typography, colors, photography, and layout are retained. Updates support accessible mobile navigation, reduced motion, and readable form feedback.
+
+The approved Open Wing logo is `images/from-the-ashes-logo.svg`; the separate mark is `images/open-wing-icon.svg`. The brand links use `aria-label="From The Ashes Fitness home"` and a decorative image to avoid duplicate announcements. Keep the navigation breakpoint at 1060px in both CSS and JavaScript when adjusting the header.
+
+Favicons use `images/open-wing-favicon.svg`, with PNG/ICO fallbacks and an Apple touch icon. The pale favicon tile preserves contrast on light and dark browser tabs. The header's lettering is outlined vector artwork; the retained wing is embedded as a web-sized raster image.

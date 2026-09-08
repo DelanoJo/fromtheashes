@@ -112,7 +112,9 @@ def crawl():
                     if item.get('telephone') != '+1-720-336-9665': issues.append(f'{path}: wrong business phone')
                     if any(k in item for k in ['address', 'geo', 'aggregateRating', 'review', 'priceRange']): issues.append(f'{path}: unapproved business facts')
         for tag, attrs in page.tags:
-            if tag == 'img' and (not attrs.get('alt') or not attrs.get('width') or not attrs.get('height')):
+            # Decorative images are silent when their enclosing link supplies its name.
+            decorative = attrs.get('alt') == '' and attrs.get('aria-hidden') == 'true'
+            if tag == 'img' and ((not attrs.get('alt') and not decorative) or not attrs.get('width') or not attrs.get('height')):
                 issues.append(f'{path}: image missing alt or dimensions: {attrs.get("src")}')
         print(f'OK metadata: {path} ({len(page.title)} title characters)')
 
