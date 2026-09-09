@@ -12,7 +12,7 @@ Plain HTML, CSS, and JavaScript served by GitHub Pages from `main` at the reposi
 
 - `index.html`: homepage
 - `denver-personal-trainer/index.html`: in-home training in Denver
-- `corporate-fitness/index.html`: workplace and community group fitness, including Mia's Jazzercise and KEFI teaching experience
+- `corporate-fitness/index.html`: workplace and community group fitness, including Mia's group exercise, boot camp, and KEFI teaching experience
 - `programs.html`, `about.html`, `testimonials.html`, `contact.html`: other core pages
 - `services.html`: legacy redirect to the combined personal training page, preserving campaign parameters and section bookmarks when JavaScript is available
 - `css/styles.css`: shared design and responsive layouts
