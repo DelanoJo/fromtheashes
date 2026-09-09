@@ -7,7 +7,7 @@ const os = require('node:os');
 const path = require('node:path');
 const base = process.env.FTA_BASE_URL || 'http://127.0.0.1:4175';
 const artifacts = fs.mkdtempSync(path.join(os.tmpdir(), 'fta-seo-review-'));
-const routes = ['/', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/privacy.html', '/denver-personal-trainer/'];
+const routes = ['/', '/programs.html', '/about.html', '/testimonials.html', '/contact.html', '/privacy.html', '/denver-personal-trainer/', '/corporate-fitness/'];
 
 async function run() {
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -44,7 +44,7 @@ async function run() {
                 assert.equal(await homeLink.getAttribute('href'), '/');
                 assert.equal(await homeLink.getByRole('img').count(), 0, 'The logo does not repeat the link announcement');
                 assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
-                assert.deepEqual(await page.locator('.nav-menu a').allTextContents(), ['Home', 'Personal Training', 'Programs', 'Testimonials', 'About Mia', 'Book Consultation']);
+                assert.deepEqual(await page.locator('.nav-menu a').allTextContents(), ['Home', 'Personal Training', 'Programs', 'Group Fitness', 'Testimonials', 'About Mia', 'Book Consultation']);
                 assert.equal(await page.locator('.nav-menu a[aria-current="page"]').count(), route === '/privacy.html' ? 0 : 1);
                 await page.evaluate(async () => {
                     for (let y = 0; y < document.body.scrollHeight; y += 700) {
@@ -161,6 +161,41 @@ async function run() {
         });
         const events = await page.evaluate(() => window.dataLayer.map(item => item?.event || (item?.[0] === 'event' ? item[1] : undefined)));
         for (const event of ['click_email', 'click_phone', 'consultation_cta']) assert.ok(events.includes(event));
+
+        // Corporate CTAs use the same protected form and success-only lead event.
+        await page.goto(base + '/corporate-fitness/?utm_source=outreach&utm_medium=email&utm_campaign=corporate_pilot&utm_content=dtc');
+        await page.getByRole('link', { name: 'Plan a Group Session', exact: true }).click();
+        assert.equal(await page.locator('#service').inputValue(), 'corporate-fitness');
+        assert.ok(await page.locator('#group-inquiry-note').isVisible());
+        assert.equal(await page.locator('h1').textContent(), 'Plan a Group Fitness Session');
+        assert.equal(await page.locator('input[name="utm_campaign"]').inputValue(), 'corporate_pilot');
+        assert.equal(await page.locator('input[name="landing_page"]').inputValue(), '/corporate-fitness/');
+        await page.locator('#service').selectOption('individual-training');
+        assert.ok(await page.locator('#group-inquiry-note').isHidden());
+        assert.match(await page.locator('h1').textContent(), /Personal Training Consultation/);
+        await page.locator('#service').selectOption('corporate-fitness');
+        await page.locator('#name').fill('Corporate QA');
+        await page.locator('#email').fill('qa@example.test');
+        await page.locator('#phone').fill('5550000000');
+        await page.locator('#message').fill('Private organization and participant details — never send to Analytics');
+        const corporateSends = sends;
+        mode = 'failure';
+        await page.getByRole('button', { name: 'Request Complimentary Consultation' }).click();
+        await page.waitForFunction(() => document.querySelector('#form-message').textContent.includes('Test rejection'));
+        assert.equal((await leads()).length, 0);
+        mode = 'success';
+        await page.getByRole('button', { name: 'Request Complimentary Consultation' }).click();
+        await page.waitForFunction(() => document.querySelector('#form-message').classList.contains('success'));
+        assert.equal(sends, corporateSends + 2);
+        assert.equal((await leads()).length, 1);
+        assert.match(body, /name="service"[\s\S]*corporate-fitness/);
+        assert.match(body, /name="utm_campaign"[\s\S]*corporate_pilot/);
+        assert.deepEqual(Object.keys((await leads())[0]).sort(), ['event', 'form_id', 'lead_type', 'page_path']);
+        assert.equal(await page.locator('#name').inputValue(), '');
+        assert.ok(await page.locator('#group-inquiry-note').isHidden());
+        await page.goto(base + '/contact.html?service=unrecognized');
+        assert.equal(await page.locator('#service').inputValue(), '');
+        assert.ok(await page.locator('#group-inquiry-note').isHidden());
 
         // A new campaign starts a clean attribution set, without mixing old click IDs.
         await page.goto(base + '/contact.html?utm_source=newsletter&utm_campaign=autumn');

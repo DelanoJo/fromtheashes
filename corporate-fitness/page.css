@@ -1,0 +1,56 @@
+.corporate-page .navbar .container { max-width: 1280px; }
+.corporate-page .nav-brand a { width: 220px; }
+.corporate-page .nav-menu { gap: 0.85rem; }
+.corporate-page .nav-menu a { font-size: 0.875rem; }
+.group-hero { padding: clamp(2.5rem, 6vw, 5rem) 0 3rem; background: var(--primary-dark); color: white; }
+.group-hero-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.group-kicker { color: var(--highlight-color); text-transform: uppercase; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.12em; margin-bottom: 1.3rem; }
+.group-hero h1 { color: white; font-size: clamp(2.5rem, 4.6vw, 4rem); line-height: 1.1; letter-spacing: -0.045em; margin-bottom: 1.6rem; }
+.group-hero h1 span { color: var(--highlight-color); }
+.group-lede { font-size: 1.125rem; max-width: 33rem; line-height: 1.75; margin-bottom: 1.8rem; }
+.group-area { font-size: 0.875rem; margin-top: 1.5rem; color: #d4e4e7; }
+.group-hero-photo { margin: 0; min-width: 0; }
+.group-hero-photo img { display: block; width: 100%; aspect-ratio: 1.1; object-fit: cover; object-position: 54% center; border-radius: 90px 12px 12px 12px; }
+.group-hero-photo figcaption { font-size: 0.875rem; padding-top: 0.8rem; color: #d4e4e7; }
+.group-credentials { background: #e5eddf; padding: 1.25rem 0; color: var(--primary-dark); }
+.group-credentials .container { display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; font-size: 0.875rem; font-weight: 600; }
+.group-section { padding: clamp(3rem, 7vw, 5.5rem) 0; }
+.group-section-heading { max-width: 800px; margin-bottom: 2.75rem; }
+.group-section-heading h2, .group-faq-grid h2 { font-size: clamp(2rem, 3.2vw, 2.8rem); color: var(--primary-color); }
+.group-section-heading > p:last-child { max-width: 720px; }
+.group-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+.group-options article { border-top: 2px solid var(--accent-color); padding-top: 1.3rem; }
+.group-number { display: block; color: var(--accent-dark); font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
+.group-options h3 { font-size: 1.4rem; }
+.group-option-note { font-size: 0.9375rem; font-weight: 600; margin-top: 1rem; }
+.group-coach { background: var(--gray-light); padding: 4rem 0; }
+.group-coach-grid { display: grid; grid-template-columns: 0.65fr 1.35fr; align-items: center; gap: clamp(2rem, 7vw, 6rem); }
+.group-coach-grid > img { display: block; width: 100%; max-height: 460px; object-fit: cover; border-radius: 12px; }
+.group-coach-grid h2 { color: var(--primary-color); font-size: clamp(2rem, 3.2vw, 2.8rem); }
+.group-coach-grid p { margin-bottom: 1.3rem; }
+.group-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style-position: inside; gap: 2rem; }
+.group-steps li { padding: 1.6rem; border-radius: 12px; background: #f0f5f2; }
+.group-steps li::marker { color: var(--accent-dark); font-weight: 700; font-size: 1.125rem; }
+.group-steps h3 { margin-top: 0.75rem; font-size: 1.25rem; }
+.group-faq-section { padding: 0 0 5rem; }
+.group-faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 4rem; }
+.group-faq-grid .training-faq:first-child { padding-top: 0; }
+.group-contact { background: var(--primary-dark); color: white; text-align: center; padding: clamp(3rem, 7vw, 5rem) 0; }
+.group-contact h2 { color: white; font-size: clamp(2rem, 4vw, 3.2rem); }
+.group-contact .btn { margin: 1.75rem 0; }
+.group-direct { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.35rem 0.75rem; font-size: 0.9375rem; }
+.group-direct a { color: white; }
+.corporate-page .btn-primary { background: #cc6f4c; color: #061f27; font-weight: 700; }
+.corporate-page .btn-primary:hover { background: #d98160; color: #061f27; }
+.group-contact a:focus-visible, .group-hero a:focus-visible { outline-color: #b9d96b; }
+@media (max-width: 1060px) { .corporate-page .nav-menu { gap: 0; } .corporate-page .nav-menu a { font-size: 1rem; } }
+@media (max-width: 760px) {
+    .group-hero-grid, .group-coach-grid, .group-faq-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .group-hero h1 { font-size: clamp(2.5rem, 9vw, 4rem); }
+    .group-hero-photo img { aspect-ratio: 1.55; border-radius: 50px 12px 12px 12px; }
+    .group-options, .group-steps { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+    .group-coach-grid > img { max-width: 360px; max-height: 360px; object-position: center 25%; }
+    .group-credentials .container { display: grid; gap: 0.5rem; }
+    .group-contact h2 br { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .corporate-page * { scroll-behavior: auto; } }

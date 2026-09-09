@@ -12,12 +12,14 @@ Plain HTML, CSS, and JavaScript served by GitHub Pages from `main` at the reposi
 
 - `index.html`: homepage
 - `denver-personal-trainer/index.html`: in-home training in Denver
+- `corporate-fitness/index.html`: workplace and community group fitness, including Mia's Jazzercise and KEFI teaching experience
 - `programs.html`, `about.html`, `testimonials.html`, `contact.html`: other core pages
 - `services.html`: legacy redirect to the combined personal training page, preserving campaign parameters and section bookmarks when JavaScript is available
 - `css/styles.css`: shared design and responsive layouts
 - `js/main.js`: navigation, session explorer, testimonials, and Formspree submission
 - `js/consent.js`: cookie preferences and consent-first Google tag loading
 - `js/analytics.js`: consent-aware session attribution and conversion/click hooks
+- `js/group-inquiry.js`: allowlisted corporate service preselection and organizer guidance on the existing contact form
 - `privacy.html`: analytics, form, attribution, and cookie disclosures
 - `images/optimized/`: smaller WebP copies of the existing photos
 - `robots.txt`, `sitemap.xml`: crawl controls and canonical page inventory

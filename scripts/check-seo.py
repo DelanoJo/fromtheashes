@@ -65,13 +65,14 @@ def crawl():
     assert not re.search(r'^Disallow:\s*/\s*$', (ROOT / 'robots.txt').read_text(), re.M)
     expected = {CANONICAL + '/', *[CANONICAL + '/' + p.name for p in ROOT.glob('*.html')
                                  if p.name not in ('index.html', 'services.html', '404.html', 'print-review.html')]}
-    expected.add(CANONICAL + '/denver-personal-trainer/')
+    route_directories = ['denver-personal-trainer', 'corporate-fitness']
+    expected.update(CANONICAL + '/' + route + '/' for route in route_directories)
     if set(sitemap) != expected: issues.append('Sitemap differs from canonical indexable pages')
 
-    for file in [*ROOT.glob('*.html'), ROOT / 'denver-personal-trainer/index.html']:
+    for file in [*ROOT.glob('*.html'), *[ROOT / route / 'index.html' for route in route_directories]]:
         source = file.read_text()
         rel = file.relative_to(ROOT).as_posix()
-        path = '/' if rel == 'index.html' else '/' + rel.replace('denver-personal-trainer/index.html', 'denver-personal-trainer/')
+        path = '/' if rel == 'index.html' else '/' + re.sub(r'/index\.html$', '/', rel)
         page = Page(source)
         pages[path] = page
         if re.search(r'mia\.burkhardt@outlook\.com', source): issues.append(f'{path}: outdated email')

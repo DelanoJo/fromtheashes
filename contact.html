@@ -74,6 +74,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/denver-personal-trainer/">Personal Training</a></li>
                 <li><a href="/programs.html">Programs</a></li>
+                <li><a href="/corporate-fitness/">Group Fitness</a></li>
                 <li><a href="/testimonials.html">Testimonials</a></li>
                 <li><a href="/about.html">About Mia</a></li>
                 <li><a href="/contact.html" class="active cta-button" aria-current="page">Book Consultation</a></li>
@@ -85,8 +86,8 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Book Your Denver Personal Training Consultation</h1>
-            <p>Meet Mia, discuss your goals, and plan private training that comes to you. Your first consultation is complimentary.</p>
+            <h1 id="contact-heading">Book Your Denver Personal Training Consultation</h1>
+            <p id="contact-intro">Meet Mia, discuss your goals, and plan private training that comes to you. Your first consultation is complimentary.</p>
         </div>
     </section>
 
@@ -96,11 +97,12 @@
             <div style="max-width: 800px; margin: 0 auto;">
                 <!-- Contact Form -->
                 <div class="consultation-form-card" style="background: var(--white); border-radius: 10px; box-shadow: var(--shadow);">
-                    <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">Schedule Your Consultation</h2>
+                    <h2 id="inquiry-title" style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">Schedule Your Consultation</h2>
 
                     <div id="form-message" role="status" aria-live="polite" tabindex="-1"></div>
 
                     <form id="contact-form" action="https://formspree.io/f/xdkqarwv" method="POST">
+                        <p id="group-inquiry-note" hidden class="group-inquiry-note">For a workplace or community class, include your organization, location, approximate group size, and preferred times in your message. Please do not include employees' personal health information.</p>
                         <div class="form-group">
                             <label for="name">Your Name <span style="color: #e74c3c;">*</span></label>
                             <input type="text" id="name" name="name" autocomplete="name" required>
@@ -125,6 +127,7 @@
                                 <option value="individual-training">Individual Training</option>
                                 <option value="partner-training">Partner Training</option>
                                 <option value="group-training">Small Group Training</option>
+                                <option value="corporate-fitness">Corporate / Community Group Fitness</option>
                                 <option value="women-on-weights">Women on Weights Program</option>
                                 <option value="prenatal-postnatal">Prenatal/Postnatal Fitness</option>
                                 <option value="senior-fitness">Senior Strength &amp; Mobility</option>
@@ -146,6 +149,7 @@
                                 <option value="">Select a location...</option>
                                 <option value="my-home">My Home</option>
                                 <option value="my-gym">My Building's Gym (with permission)</option>
+                                <option value="workplace-community">Workplace / Community Venue (with permission)</option>
                                 <option value="outdoors">Outdoor Location</option>
                                 <option value="virtual">Virtual/Online</option>
                                 <option value="flexible">I'm Flexible</option>
@@ -270,6 +274,7 @@
                 <div class="footer-section">
                     <h2>Quick Links</h2>
                     <ul>
+                        <li><a href="/corporate-fitness/">Group Fitness</a></li>
                         <li><a href="/denver-personal-trainer/">Personal Training</a></li>
                         <li><a href="about.html">About Mia</a></li>
                         <li><a href="programs.html">Programs</a></li>
@@ -294,6 +299,7 @@
     </footer>
 
     <script src="js/analytics.js" defer></script>
+    <script src="js/group-inquiry.js" defer></script>
     <script src="js/main.js" defer></script>
     <!-- Google reCAPTCHA script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
